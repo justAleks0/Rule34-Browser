@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#121212"/>
+
+  <!-- Browser shell -->
+  <rect x="48" y="64" width="416" height="384" rx="24" fill="#1C1C1C" stroke="#3A3A3A" stroke-width="2"/>
+  <rect x="48" y="64" width="416" height="52" rx="24" fill="#282828"/>
+  <rect x="48" y="100" width="416" height="16" fill="#282828"/>
+  <circle cx="88" cy="90" r="8" fill="#FF5F57"/>
+  <circle cx="116" cy="90" r="8" fill="#FFBD2E"/>
+  <circle cx="144" cy="90" r="8" fill="#28CA41"/>
+  <!-- Address bar with search hint -->
+  <rect x="176" y="76" width="264" height="28" rx="8" fill="#0D0D0D" stroke="#444" stroke-width="1.5"/>
+  <circle cx="196" cy="90" r="6" fill="none" stroke="#666" stroke-width="2"/>
+  <line x1="200" y1="94" x2="206" y2="100" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Pixel badge (scaled favicon) -->
+  <g transform="translate(136, 148)">
+    <rect width="240" height="240" rx="4" fill="#1E4D1E"/>
+    <rect width="240" height="10" fill="#0F2A0F"/>
+    <rect width="10" height="240" fill="#0F2A0F"/>
+    <rect x="230" width="10" height="240" fill="#2A6B2A"/>
+    <rect y="230" width="240" height="10" fill="#2A6B2A"/>
+
+    <g transform="translate(30, 24) scale(6)">
+      <g fill="#FFFFFF">
+        <rect x="4" y="4" width="10" height="2"/>
+        <rect x="4" y="4" width="2" height="14"/>
+        <rect x="4" y="10" width="10" height="2"/>
+        <rect x="12" y="10" width="2" height="14"/>
+        <rect x="4" y="20" width="10" height="2"/>
+        <rect x="20" y="4" width="2" height="12"/>
+        <rect x="28" y="4" width="2" height="22"/>
+        <rect x="20" y="12" width="10" height="2"/>
+      </g>
+      <g fill="#8FD98F">
+        <rect x="5" y="30" width="2" height="2"/><rect x="9" y="30" width="2" height="2"/>
+        <rect x="7" y="32" width="2" height="2"/>
+        <rect x="5" y="34" width="2" height="2"/><rect x="9" y="34" width="2" height="2"/>
+        <rect x="17" y="30" width="2" height="2"/><rect x="21" y="30" width="2" height="2"/>
+        <rect x="19" y="32" width="2" height="2"/>
+        <rect x="17" y="34" width="2" height="2"/><rect x="21" y="34" width="2" height="2"/>
+        <rect x="29" y="30" width="2" height="2"/><rect x="33" y="30" width="2" height="2"/>
+        <rect x="31" y="32" width="2" height="2"/>
+        <rect x="29" y="34" width="2" height="2"/><rect x="33" y="34" width="2" height="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

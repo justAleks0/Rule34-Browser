@@ -1,0 +1,264 @@
+<Page x:Class="Rule34GalleryApp.Views.Pages.DownloadsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:Rule34GalleryApp.Controls"
+      xmlns:core="clr-namespace:Rule34Gallery.Core;assembly=Rule34Gallery.Core"
+      Title="Downloads"
+      Background="{StaticResource BgBrush}"
+      VerticalAlignment="Stretch"
+      HorizontalAlignment="Stretch">
+    <Grid>
+        <ScrollViewer x:Name="DownloadsScroll"
+                      VerticalAlignment="Stretch"
+                      VerticalScrollBarVisibility="Visible"
+                      HorizontalScrollBarVisibility="Disabled"
+                      CanContentScroll="False"
+                      PanningMode="VerticalOnly">
+            <StackPanel Margin="20,16,20,24" MaxWidth="760">
+                <TextBlock Style="{StaticResource PageTitleText}"
+                           Text="Downloads"
+                           Margin="0,0,0,4"/>
+                <TextBlock Foreground="{StaticResource MutedBrush}"
+                           FontSize="12"
+                           Margin="0,0,0,12"
+                           TextWrapping="Wrap"
+                           Text="Active and finished downloads for your configured library folder."/>
+
+                <Border Background="{StaticResource SurfaceRaisedBrush}"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource CardCornerRadius}"
+                        Padding="14,12"
+                        Margin="0,0,0,14">
+                    <StackPanel>
+                        <TextBlock x:Name="DownloadLibraryHint"
+                                   Foreground="{StaticResource TextBrush}"
+                                   FontSize="13"
+                                   TextWrapping="Wrap"/>
+                        <TextBlock x:Name="JobsSummaryText"
+                                   Foreground="{StaticResource MutedBrush}"
+                                   FontSize="12"
+                                   Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                    <Button Content="Clear finished &amp; failed"
+                            Style="{StaticResource SecondaryButton}"
+                            Margin="0,0,8,0"
+                            ToolTip="Removes completed, failed, and cancelled items from the list and download history file."
+                            Click="ClearFinishedButton_OnClick"/>
+                    <Button Content="Open download folder"
+                            Style="{StaticResource SecondaryButton}"
+                            Click="OpenFolderButton_OnClick"/>
+                </StackPanel>
+
+                <Border Background="{StaticResource SurfaceRaisedBrush}"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource CardCornerRadius}"
+                        Padding="14"
+                        MinHeight="200">
+                    <Grid>
+                        <ItemsControl x:Name="JobsList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type core:DownloadJob}">
+                                    <Border Background="{StaticResource SurfaceBrush}"
+                                            BorderBrush="{StaticResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="8"
+                                            Padding="12,10"
+                                            Margin="0,0,0,10">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}" Value="{x:Static core:DownloadJobStatus.Completed}">
+                                                        <Setter Property="BorderBrush" Value="{StaticResource R34GreenDarkBrush}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="{x:Static core:DownloadJobStatus.Failed}">
+                                                        <Setter Property="BorderBrush" Value="#8A4040"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="{x:Static core:DownloadJobStatus.Downloading}">
+                                                        <Setter Property="BorderBrush" Value="{StaticResource R34GreenBrush}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Row="0"
+                                                       Grid.Column="0"
+                                                       Text="{Binding DisplayTitle}"
+                                                       Foreground="{StaticResource TextBrush}"
+                                                       FontWeight="SemiBold"
+                                                       FontSize="14"
+                                                       TextTrimming="CharacterEllipsis"/>
+                                            <StackPanel Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Orientation="Horizontal"
+                                                        Margin="12,0,0,0">
+                                                <Border Background="#2A2A2A"
+                                                        BorderBrush="{StaticResource BorderBrush}"
+                                                        BorderThickness="1"
+                                                        CornerRadius="4"
+                                                        Padding="8,3"
+                                                        Margin="0,0,8,0"
+                                                        VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding StatusLabel}"
+                                                               Foreground="{StaticResource TextBrush}"
+                                                               FontSize="11"
+                                                               FontWeight="SemiBold"/>
+                                                </Border>
+                                                <Button Content="Retry"
+                                                        Padding="10,4"
+                                                        Margin="0,0,6,0"
+                                                        VerticalAlignment="Center"
+                                                        Tag="{Binding}"
+                                                        Click="RetryJobButton_OnClick">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static core:DownloadJobStatus.Failed}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static core:DownloadJobStatus.Cancelled}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                                <Button Content="Cancel"
+                                                        Padding="10,4"
+                                                        VerticalAlignment="Center"
+                                                        Tag="{Binding}"
+                                                        Click="CancelJobButton_OnClick">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button" BasedOn="{StaticResource SecondaryButton}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static core:DownloadJobStatus.Queued}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static core:DownloadJobStatus.Downloading}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </StackPanel>
+
+                                            <TextBlock Grid.Row="1"
+                                                       Grid.Column="0"
+                                                       Grid.ColumnSpan="2"
+                                                       Text="{Binding DisplayPath}"
+                                                       Foreground="{StaticResource MutedBrush}"
+                                                       FontSize="12"
+                                                       Margin="0,4,0,0"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       ToolTip="{Binding DisplayPath}"/>
+                                            <TextBlock Grid.Row="2"
+                                                       Grid.Column="0"
+                                                       Grid.ColumnSpan="2"
+                                                       Foreground="{StaticResource SubtleBrush}"
+                                                       FontSize="10"
+                                                       Margin="0,2,0,0"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       ToolTip="{Binding SourceUrl}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="{Binding SourceUrl, StringFormat=Link: {0}}"/>
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SourceUrl}" Value="">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+
+                                            <Grid Grid.Row="3"
+                                                  Grid.ColumnSpan="2"
+                                                  Margin="0,10,0,0">
+                                                <ProgressBar Style="{StaticResource DownloadProgressBar}"
+                                                             Value="{Binding Progress}"/>
+                                                <TextBlock HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center"
+                                                           Margin="0,0,6,0"
+                                                           Foreground="{StaticResource TextBrush}"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Text="{Binding StatusText}"/>
+                                            </Grid>
+
+                                            <TextBlock Grid.Row="4"
+                                                       Grid.ColumnSpan="2"
+                                                       Foreground="#E88A8A"
+                                                       FontSize="11"
+                                                       Margin="0,8,0,0"
+                                                       TextWrapping="Wrap"
+                                                       Text="{Binding ErrorMessage}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ErrorMessage}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ErrorMessage}" Value="">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <StackPanel x:Name="EmptyJobsPanel"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="0,32,0,32"
+                                    Visibility="Collapsed">
+                            <TextBlock Text="No downloads yet"
+                                       Foreground="{StaticResource TextBrush}"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,0,0,6"/>
+                            <TextBlock Text="Use ↓ on a post in Browse or the viewer to queue a file here."
+                                       Foreground="{StaticResource MutedBrush}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       MaxWidth="360"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+        <controls:PageLoadingOverlay x:Name="LoadingOverlay"
+                                    Kind="Downloads"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Panel.ZIndex="50"/>
+    </Grid>
+</Page>

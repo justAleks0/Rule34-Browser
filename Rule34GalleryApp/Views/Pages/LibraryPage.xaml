@@ -1,0 +1,104 @@
+<Page x:Class="Rule34GalleryApp.Views.Pages.LibraryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:Rule34GalleryApp.Controls"
+      Title="Library"
+      Background="{StaticResource BgBrush}">
+    <Grid Margin="20,16,20,16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Style="{StaticResource PageTitleText}"
+                   Text="Library"
+                   Margin="0,0,0,16"/>
+
+        <Border Grid.Row="1"
+                Background="{StaticResource SurfaceRaisedBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                Padding="8"
+                Margin="0,0,0,12">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="FavoritesTab"
+                        Content="★ Favorites"
+                        Style="{StaticResource PrimaryButton}"
+                        Margin="0,0,8,0"
+                        Padding="16,8"
+                        Click="FavoritesTab_OnClick"/>
+                <Button x:Name="WatchLaterTab"
+                        Content="⏱ Watch Later"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="0,0,8,0"
+                        Padding="16,8"
+                        Click="WatchLaterTab_OnClick"/>
+                <Button x:Name="ListsTab"
+                        Content="Lists"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="0,0,8,0"
+                        Padding="16,8"
+                        Click="ListsTab_OnClick"/>
+                <Button x:Name="RefreshMetadataButton"
+                        Content="↻ Refresh metadata"
+                        Style="{StaticResource SecondaryButton}"
+                        Padding="12,8"
+                        ToolTip="Re-fetch tags, artist, series, and character from Rule34 for the current view."
+                        Click="RefreshMetadataButton_OnClick"/>
+            </StackPanel>
+        </Border>
+
+        <Border x:Name="ListsPanel"
+                Grid.Row="2"
+                Background="{StaticResource SurfaceRaisedBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                Padding="12"
+                Margin="0,0,0,12"
+                Visibility="Collapsed">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <TextBox x:Name="NewListNameInput"
+                             Width="220"
+                             Margin="0,0,8,0"
+                             VerticalContentAlignment="Center"
+                             ToolTip="New list name"/>
+                    <Button Content="Create list"
+                            Style="{StaticResource PrimaryButton}"
+                            Padding="12,6"
+                            Click="CreateListButton_OnClick"/>
+                </StackPanel>
+                <ListBox x:Name="UserListsBox"
+                         Height="100"
+                         Margin="0,0,0,8"
+                         SelectionChanged="UserListsBox_OnSelectionChanged"/>
+                <Button x:Name="DeleteListButton"
+                        Content="Delete selected list"
+                        Style="{StaticResource SecondaryButton}"
+                        HorizontalAlignment="Left"
+                        Padding="10,5"
+                        Visibility="Collapsed"
+                        Click="DeleteListButton_OnClick"/>
+            </StackPanel>
+        </Border>
+
+        <controls:GalleryGrid x:Name="Gallery"
+                              Grid.Row="3"
+                              VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch"
+                              CardClicked="Gallery_OnCardClicked"
+                              FavoriteClicked="Gallery_OnFavoriteClicked"
+                              WatchLaterClicked="Gallery_OnWatchLaterClicked"
+                              AddToListClicked="Gallery_OnAddToListClicked"
+                              DownloadClicked="Gallery_OnDownloadClicked"/>
+        <controls:PageLoadingOverlay x:Name="LoadingOverlay"
+                                    Kind="Library"
+                                    Grid.RowSpan="4"
+                                    Panel.ZIndex="50"/>
+    </Grid>
+</Page>

@@ -1,0 +1,52 @@
+<UserControl x:Class="Rule34GalleryApp.Controls.GalleryGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Rule34GalleryApp.Controls"
+             VerticalAlignment="Top"
+             HorizontalAlignment="Stretch"
+             PreviewMouseWheel="GalleryGrid_OnPreviewMouseWheel">
+    <Grid VerticalAlignment="Stretch">
+        <ScrollViewer x:Name="GalleryScroll"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Stretch"
+                      Padding="4"
+                      CanContentScroll="False">
+            <ItemsControl x:Name="GalleryItems">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:GalleryCard Margin="8"
+                                            CardClicked="GalleryCard_OnCardClicked"
+                                            FavoriteClicked="GalleryCard_OnFavoriteClicked"
+                                            WatchLaterClicked="GalleryCard_OnWatchLaterClicked"
+                                            AddToListClicked="GalleryCard_OnAddToListClicked"
+                                            DownloadClicked="GalleryCard_OnDownloadClicked"
+                                            ThumbEditClicked="GalleryCard_OnThumbEditClicked"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <StackPanel x:Name="EmptyPanel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsHitTestVisible="False"
+                    Visibility="Collapsed">
+            <TextBlock x:Name="EmptyTitleText"
+                       Style="{StaticResource EmptyStateTitle}"
+                       Text="No results yet"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,10"/>
+            <TextBlock x:Name="EmptySubtitleText"
+                       Style="{StaticResource EmptyStateSubtitle}"
+                       HorizontalAlignment="Center"
+                       MaxWidth="400"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

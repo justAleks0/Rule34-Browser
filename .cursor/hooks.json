@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": "powershell -ExecutionPolicy Bypass -File .cursor/hooks/publish-install-windows.ps1",
+        "timeout": 1800,
+        "failClosed": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Standalone high-res pixel badge (favicon upgrade) -->
+  <rect width="512" height="512" rx="64" fill="#1E4D1E"/>
+  <!-- Beveled pixel border like original -->
+  <rect width="512" height="16" fill="#0F2A0F"/>
+  <rect width="16" height="512" fill="#0F2A0F"/>
+  <rect x="496" width="16" height="512" fill="#2A6B2A"/>
+  <rect y="496" width="512" height="16" fill="#2A6B2A"/>
+
+  <g transform="translate(96, 64) scale(8)">
+    <!-- 40x40 logical pixel grid -->
+
+    <!-- "3" -->
+    <g fill="#FFFFFF">
+      <rect x="4" y="4" width="10" height="2"/>
+      <rect x="4" y="4" width="2" height="14"/>
+      <rect x="4" y="10" width="10" height="2"/>
+      <rect x="12" y="10" width="2" height="14"/>
+      <rect x="4" y="20" width="10" height="2"/>
+    </g>
+
+    <!-- "4" -->
+    <g fill="#FFFFFF">
+      <rect x="20" y="4" width="2" height="12"/>
+      <rect x="28" y="4" width="2" height="22"/>
+      <rect x="20" y="12" width="10" height="2"/>
+    </g>
+
+    <!-- three X marks -->
+    <g fill="#8FD98F">
+      <!-- x1 -->
+      <rect x="5" y="30" width="2" height="2"/><rect x="9" y="30" width="2" height="2"/>
+      <rect x="7" y="32" width="2" height="2"/>
+      <rect x="5" y="34" width="2" height="2"/><rect x="9" y="34" width="2" height="2"/>
+      <!-- x2 -->
+      <rect x="17" y="30" width="2" height="2"/><rect x="21" y="30" width="2" height="2"/>
+      <rect x="19" y="32" width="2" height="2"/>
+      <rect x="17" y="34" width="2" height="2"/><rect x="21" y="34" width="2" height="2"/>
+      <!-- x3 -->
+      <rect x="29" y="30" width="2" height="2"/><rect x="33" y="30" width="2" height="2"/>
+      <rect x="31" y="32" width="2" height="2"/>
+      <rect x="29" y="34" width="2" height="2"/><rect x="33" y="34" width="2" height="2"/>
+    </g>
+  </g>
+</svg>

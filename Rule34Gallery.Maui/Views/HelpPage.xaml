@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Rule34Gallery.Maui.Controls"
+             x:Class="Rule34Gallery.Maui.Views.HelpPage"
+             Title="Help / How To"
+             BackgroundColor="#0D0D0D">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout x:Name="TopicsLayout" Padding="16" Spacing="8">
+                <Label Text="Help / How To"
+                       TextColor="#a0e070"
+                       FontSize="22"
+                       FontAttributes="Bold" />
+                <Label Text="Tutorials for this app on Android (MAUI). Expand a topic for step-by-step guidance."
+                       TextColor="#888"
+                       FontSize="12"
+                       LineHeight="18"
+                       Margin="0,0,0,8" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <controls:PageLoadingOverlay x:Name="LoadingOverlay"
+                                    Kind="Help"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Fill"
+                                    ZIndex="99" />
+    </Grid>
+</ContentPage>

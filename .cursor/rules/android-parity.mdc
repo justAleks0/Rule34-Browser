@@ -1,0 +1,42 @@
+---
+description: Keep native Android app in sync with Rule34 Gallery desktop/MAUI changes
+alwaysApply: true
+---
+
+# Android parity required
+
+This repo has three clients:
+
+| Client | Path |
+|--------|------|
+| Desktop (WPF) | `Rule34GalleryApp/` |
+| Shared logic (reference) | `Rule34Gallery.Core/` |
+| **Native Android** | `C:\Users\aleks\AndroidStudioProjects\R34Browser` |
+
+## Rule
+
+Whenever you change **behavior, features, API usage, settings fields, Firebase flows, downloads, local library, search/filters, or UI flows** in this repo (`Rule34Gallery.Core`, `Rule34GalleryApp`, or `Rule34Gallery.Maui`), **also implement the equivalent change** in the native Android project at `C:\Users\aleks\AndroidStudioProjects\R34Browser`.
+
+Do not consider a task done until both are updated, unless the user explicitly asks for desktop-only or Android-only work.
+
+## Porting map
+
+- **Business logic** → `app/src/main/java/com/example/r34browser/domain/` and `data/`
+- **Screens** → `ui/browse`, `ui/library`, `ui/local`, `ui/settings`, `ui/account`, `ui/viewer`, `ui/downloads`, `ui/discover`, `ui/presets`
+- **Presets asset** → regenerate `app/src/main/assets/presets.json` from `Rule34Gallery.Core/Services/*PresetCatalog*.cs` when preset catalogs change
+- **Changelog** → run `scripts/sync-changelog-android.ps1` (or full `scripts/post-change-all.ps1`) so `app/src/main/assets/changelog.md` matches repo root `changelog.md`
+- **Firebase config** → copy `Rule34GalleryApp/firebase-config.json` to `R34Browser/app/src/main/assets/firebase-config.json` (gitignored on Android)
+- **Google Sign-In (Android)** → Android OAuth client (package + SHA-1), not `rule34gallery://auth` on Web client — see `R34Browser/GOOGLE_SIGNIN.md`
+
+## Android-only concerns
+
+Use Android APIs (DataStore, EncryptedSharedPreferences, Coil, SAF folder picker, Custom Tabs, `rule34gallery://auth` deep link) — do not reference .NET MAUI.
+
+## Verification
+
+After Android changes (and before marking the task done):
+
+1. Build: `.\gradlew.bat assembleDebug` in the Android project (or `scripts/publish-android.ps1` for a release APK in `dist/`).
+2. Run the full post-change pipeline if desktop was also touched — see **publish-and-install-after-edits** (`scripts/post-change-all.ps1`).
+
+Do not consider Android work done after only editing Kotlin/XML without a successful Gradle build.

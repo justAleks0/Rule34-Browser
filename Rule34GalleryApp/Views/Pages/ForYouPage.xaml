@@ -1,0 +1,501 @@
+<Page x:Class="Rule34GalleryApp.Views.Pages.ForYouPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:Rule34GalleryApp.Controls"
+      xmlns:pages="clr-namespace:Rule34GalleryApp.Views.Pages"
+      Title="For You"
+      Background="{StaticResource BgBrush}"
+      VerticalAlignment="Stretch"
+      HorizontalAlignment="Stretch">
+    <Grid Margin="16,12,16,12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Style="{StaticResource PageTitleText}"
+                       Text="For You"
+                       Margin="0,0,0,4"/>
+            <TextBlock Style="{StaticResource MutedText}"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,6"
+                       Text="Full profile control on PC — topics, scores, pin/hide, and signals. Syncs to Android For You (Lite)."/>
+            <TextBlock x:Name="StatusText"
+                       Style="{StaticResource MutedText}"
+                       Text="Turn on For You in Settings to start learning."/>
+            <TextBlock Style="{StaticResource MutedText}"
+                       TextWrapping="Wrap"
+                       Margin="0,6,0,0"
+                       Text="Learns from search, opens, favorites, watch later, and downloads. Topics lose 1 point per search after 100 searches without that tag (pinned topics exempt)."/>
+            <WrapPanel Margin="0,10,0,0">
+                <Border Background="{StaticResource SurfaceRaisedBrush}"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="RefreshButton"
+                                Content="Refresh"
+                                Style="{StaticResource PrimaryButton}"
+                                MinWidth="96"
+                                Padding="14,8"
+                                BorderThickness="0"
+                                Click="RefreshButton_OnClick"/>
+                        <Border Width="1"
+                                Background="{StaticResource BorderBrush}"
+                                Margin="0,6"/>
+                        <Button x:Name="RefreshMenuButton"
+                                Content="▾"
+                                Style="{StaticResource PrimaryButton}"
+                                Width="30"
+                                Padding="0,8"
+                                BorderThickness="0"
+                                Click="RefreshMenuButton_OnClick"/>
+                    </StackPanel>
+                </Border>
+                <Popup x:Name="RefreshMenuPopup"
+                       PlacementTarget="{Binding ElementName=RefreshMenuButton}"
+                       Placement="Bottom"
+                       StaysOpen="False"
+                       AllowsTransparency="True">
+                    <Border Background="{StaticResource SurfaceRaisedBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="4"
+                            MinWidth="220">
+                        <Button Content="Force update algorithm"
+                                Style="{StaticResource SecondaryButton}"
+                                HorizontalContentAlignment="Left"
+                                Padding="12,8"
+                                Click="ForceUpdateButton_OnClick"/>
+                    </Border>
+                </Popup>
+                <Button x:Name="DataViewerButton"
+                        Content="{}{ }"
+                        Style="{StaticResource SecondaryButton}"
+                        MinWidth="40"
+                        Margin="0,0,8,0"
+                        FontFamily="Consolas"
+                        Click="DataViewerButton_OnClick"/>
+                <Border Background="{StaticResource SurfaceRaisedBrush}"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="ToggleLearningButton"
+                                Content="Enable learning"
+                                Style="{StaticResource PrimaryButton}"
+                                MinWidth="110"
+                                Padding="14,8"
+                                BorderThickness="0"
+                                Click="ToggleLearningButton_OnClick"/>
+                        <Border Width="1"
+                                Background="{StaticResource BorderBrush}"
+                                Margin="0,6"/>
+                        <Button x:Name="LearningMenuButton"
+                                Content="▾"
+                                Style="{StaticResource PrimaryButton}"
+                                Width="30"
+                                Padding="0,8"
+                                BorderThickness="0"
+                                Click="LearningMenuButton_OnClick"/>
+                    </StackPanel>
+                </Border>
+                <Popup x:Name="LearningMenuPopup"
+                       PlacementTarget="{Binding ElementName=LearningMenuButton}"
+                       Placement="Bottom"
+                       StaysOpen="False"
+                       AllowsTransparency="True">
+                    <Border Background="{StaticResource SurfaceRaisedBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="12"
+                            MinWidth="260">
+                        <StackPanel>
+                            <TextBlock Text="Learning categories"
+                                       Foreground="{StaticResource R34GreenBrush}"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"/>
+                            <TextBlock Text="Choose which tag types For You learns from."
+                                       Foreground="{StaticResource MutedBrush}"
+                                       FontSize="11"
+                                       TextWrapping="Wrap"
+                                       Margin="0,4,0,8"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <CheckBox x:Name="LearnArtistsMenuCheckBox"
+                                          Style="{StaticResource ToggleSwitchStyle}"
+                                          Margin="0,0,10,0"
+                                          VerticalAlignment="Center"
+                                          Checked="LearnCategory_OnChanged"
+                                          Unchecked="LearnCategory_OnChanged"/>
+                                <TextBlock Text="Artist learning"
+                                           Style="{StaticResource BodyText}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <CheckBox x:Name="LearnSeriesMenuCheckBox"
+                                          Style="{StaticResource ToggleSwitchStyle}"
+                                          Margin="0,0,10,0"
+                                          VerticalAlignment="Center"
+                                          Checked="LearnCategory_OnChanged"
+                                          Unchecked="LearnCategory_OnChanged"/>
+                                <TextBlock Text="Series learning"
+                                           Style="{StaticResource BodyText}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="LearnMinorTagsMenuCheckBox"
+                                          Style="{StaticResource ToggleSwitchStyle}"
+                                          Margin="0,0,10,0"
+                                          VerticalAlignment="Center"
+                                          Checked="LearnCategory_OnChanged"
+                                          Unchecked="LearnCategory_OnChanged"/>
+                                <TextBlock Text="Minor tags (1girl, …)"
+                                           Style="{StaticResource BodyText}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+                <Button Content="Clear"
+                        Style="{StaticResource SecondaryButton}"
+                        MinWidth="96"
+                        Margin="0,0,8,0"
+                        Click="ClearButton_OnClick"/>
+                <Button Content="Reset profile"
+                        Style="{StaticResource SecondaryButton}"
+                        MinWidth="110"
+                        Margin="0,0,8,0"
+                        Click="ResetProfileButton_OnClick"/>
+                <Button Content="Reset all"
+                        Style="{StaticResource SecondaryButton}"
+                        MinWidth="96"
+                        Click="ResetAllButton_OnClick"/>
+            </WrapPanel>
+        </StackPanel>
+
+        <Expander x:Name="ControlsExpander"
+                  Grid.Row="1"
+                  Style="{StaticResource R34Expander}"
+                  IsExpanded="False"
+                  Margin="0,0,0,10">
+            <Expander.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Profile &amp; summary"
+                               Foreground="{StaticResource R34GreenBrush}"
+                               FontSize="13"
+                               FontWeight="SemiBold"/>
+                    <TextBlock x:Name="ControlsExpanderSummary"
+                               Foreground="{StaticResource MutedBrush}"
+                               FontSize="11"
+                               Margin="10,2,0,0"
+                               TextWrapping="Wrap"
+                               Text="Click to expand"/>
+                </StackPanel>
+            </Expander.Header>
+            <StackPanel>
+                <Border Style="{StaticResource BrowseSectionCard}"
+                        Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock x:Name="SummaryText"
+                                   Style="{StaticResource BodyText}"
+                                   TextWrapping="Wrap"
+                                   Text="Your feed gets smarter as you browse."/>
+                        <TextBlock x:Name="SourceNoteText"
+                                   Style="{StaticResource MutedText}"
+                                   FontSize="11"
+                                   TextWrapping="Wrap"
+                                   Margin="0,4,0,0"
+                                   Visibility="Collapsed"/>
+                    </StackPanel>
+                </Border>
+
+                <Expander x:Name="InterestTimelineExpander"
+                          Style="{StaticResource R34Expander}"
+                          IsExpanded="False"
+                          Margin="0,0,0,10">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Interest over time"
+                                       Foreground="{StaticResource R34GreenBrush}"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"/>
+                            <TextBlock x:Name="InterestTimelineSummary"
+                                       Foreground="{StaticResource MutedBrush}"
+                                       FontSize="11"
+                                       Margin="10,1,0,0"
+                                       Text="Timeline graph of rising and fading topics"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <Border Style="{StaticResource BrowseSectionCard}"
+                            Margin="0,6,0,0"
+                            Padding="10">
+                        <controls:TopicInterestTimelineChart x:Name="InterestTimelineChart"
+                                                            Height="220"/>
+                    </Border>
+                </Expander>
+
+                <Border Style="{StaticResource BrowseSectionCard}"
+                        Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SettingsSubHeader}" Text="Learning"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,2">
+                            <CheckBox x:Name="LearningCheckBox"
+                                      Style="{StaticResource ToggleSwitchStyle}"
+                                      Margin="0,0,10,0"
+                                      VerticalAlignment="Center"
+                                      Checked="LearningCheckBox_OnChanged"
+                                      Unchecked="LearningCheckBox_OnChanged"/>
+                            <TextBlock Style="{StaticResource BodyText}"
+                                       Text="Capture activity for this feed"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource MutedText}"
+                                   FontSize="11"
+                                   Text="Tag types to learn from"
+                                   Margin="0,8,0,6"/>
+                        <StackPanel x:Name="LearnCategoriesPanel" Margin="12,0,0,0">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <CheckBox x:Name="LearnArtistsCheckBox"
+                                          Style="{StaticResource ToggleSwitchStyle}"
+                                          Margin="0,0,10,0"
+                                          VerticalAlignment="Center"
+                                          Checked="LearnCategory_OnChanged"
+                                          Unchecked="LearnCategory_OnChanged"/>
+                                <TextBlock Style="{StaticResource BodyText}"
+                                           Text="Artists"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <CheckBox x:Name="LearnSeriesCheckBox"
+                                          Style="{StaticResource ToggleSwitchStyle}"
+                                          Margin="0,0,10,0"
+                                          VerticalAlignment="Center"
+                                          Checked="LearnCategory_OnChanged"
+                                          Unchecked="LearnCategory_OnChanged"/>
+                                <TextBlock Style="{StaticResource BodyText}"
+                                           Text="Series"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <CheckBox x:Name="LearnMinorTagsCheckBox"
+                                          Style="{StaticResource ToggleSwitchStyle}"
+                                          Margin="0,0,10,0"
+                                          VerticalAlignment="Center"
+                                          Checked="LearnCategory_OnChanged"
+                                          Unchecked="LearnCategory_OnChanged"/>
+                                <TextBlock Style="{StaticResource BodyText}"
+                                           Text="Minor tags (1girl, …)"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,4">
+                            <CheckBox x:Name="OpenAiCheckBox"
+                                      Style="{StaticResource ToggleSwitchStyle}"
+                                      Margin="0,0,10,0"
+                                      Checked="OpenAiCheckBox_OnChanged"
+                                      Unchecked="OpenAiCheckBox_OnChanged"/>
+                            <TextBlock Style="{StaticResource BodyText}"
+                                       Text="Use OpenAI to summarize activity"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock x:Name="SignalsCountText"
+                                   Style="{StaticResource MutedText}"
+                                   FontSize="11"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource BrowseSectionCard}">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SettingsSubHeader}" Text="Manage"/>
+                        <TextBlock Style="{StaticResource MutedText}"
+                                   FontSize="11"
+                                   TextWrapping="Wrap"
+                                   Margin="0,4,0,8"
+                                   Text="Open a menu to add topics, run suggested searches, or review signals."/>
+                        <WrapPanel>
+                            <Button x:Name="ManageTopicsButton"
+                                    Content="Topics"
+                                    Style="{StaticResource SecondaryButton}"
+                                    MinWidth="148"
+                                    Margin="0,0,8,0"
+                                    Click="ManageTopicsButton_OnClick"/>
+                            <Button x:Name="ManageSearchLinesButton"
+                                    Content="Suggested searches"
+                                    Style="{StaticResource SecondaryButton}"
+                                    MinWidth="168"
+                                    Margin="0,0,8,0"
+                                    Click="ManageSearchLinesButton_OnClick"/>
+                            <Button x:Name="ManageSignalsButton"
+                                    Content="Recent signals"
+                                    Style="{StaticResource SecondaryButton}"
+                                    MinWidth="148"
+                                    Click="ManageSignalsButton_OnClick"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Expander>
+
+        <Grid Grid.Row="2" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource SettingsSubHeader}"
+                       Text="Feed"
+                       VerticalAlignment="Center"/>
+            <Border Grid.Column="1"
+                    Background="{StaticResource SurfaceRaisedBrush}"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="SortFilterButton"
+                            Content="Sort &amp; filter"
+                            Style="{StaticResource SecondaryButton}"
+                            MinWidth="132"
+                            Padding="14,8"
+                            BorderThickness="0"
+                            Click="SortFilterButton_OnClick"/>
+                    <Border Width="1"
+                            Background="{StaticResource BorderBrush}"
+                            Margin="0,6"/>
+                    <Button x:Name="SortFilterMenuButton"
+                            Content="▾"
+                            Style="{StaticResource SecondaryButton}"
+                            Width="30"
+                            Padding="0,8"
+                            BorderThickness="0"
+                            Click="SortFilterButton_OnClick"/>
+                </StackPanel>
+            </Border>
+            <Popup x:Name="SortFilterPopup"
+                   PlacementTarget="{Binding ElementName=SortFilterMenuButton}"
+                   Placement="Bottom"
+                   StaysOpen="False"
+                   AllowsTransparency="True">
+                <Border Background="{StaticResource SurfaceRaisedBrush}"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="12"
+                        MinWidth="240">
+                    <StackPanel>
+                        <TextBlock Text="Sort"
+                                   Foreground="{StaticResource R34GreenBrush}"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"/>
+                        <RadioButton x:Name="SortMostMatchesRadio"
+                                     GroupName="ForYouFeedSort"
+                                     Content="Most topic matches"
+                                     Margin="0,6,0,4"
+                                     Checked="SortFilterOption_OnChanged"/>
+                        <RadioButton x:Name="SortHighestScoreRadio"
+                                     GroupName="ForYouFeedSort"
+                                     Content="Highest training score"
+                                     Margin="0,0,0,4"
+                                     Checked="SortFilterOption_OnChanged"/>
+                        <RadioButton x:Name="SortRandomRadio"
+                                     GroupName="ForYouFeedSort"
+                                     Content="Random"
+                                     Margin="0,0,0,10"
+                                     Checked="SortFilterOption_OnChanged"/>
+                        <TextBlock Text="Filter"
+                                   Foreground="{StaticResource R34GreenBrush}"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"/>
+                        <RadioButton x:Name="FilterAllRadio"
+                                     GroupName="ForYouFeedFilter"
+                                     Content="All"
+                                     Margin="0,6,0,4"
+                                     Checked="SortFilterOption_OnChanged"/>
+                        <RadioButton x:Name="FilterImagesRadio"
+                                     GroupName="ForYouFeedFilter"
+                                     Content="Images"
+                                     Margin="0,0,0,4"
+                                     Checked="SortFilterOption_OnChanged"/>
+                        <RadioButton x:Name="FilterVideosRadio"
+                                     GroupName="ForYouFeedFilter"
+                                     Content="Videos"
+                                     Margin="0,0,0,4"
+                                     Checked="SortFilterOption_OnChanged"/>
+                        <RadioButton x:Name="FilterGifsRadio"
+                                     GroupName="ForYouFeedFilter"
+                                     Content="GIFs"
+                                     Margin="0,0,0,4"
+                                     Checked="SortFilterOption_OnChanged"/>
+                        <RadioButton x:Name="FilterAnimatedRadio"
+                                     GroupName="ForYouFeedFilter"
+                                     Content="Animated"
+                                     Checked="SortFilterOption_OnChanged"/>
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <ScrollViewer x:Name="FeedScroll"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Padding="4">
+                <ItemsControl x:Name="FeedItemsControl">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type pages:ForYouGalleryEntry}">
+                            <StackPanel Width="232" Margin="8">
+                                <Border Background="#172018"
+                                        BorderBrush="#2f4a2e"
+                                        BorderThickness="1"
+                                        CornerRadius="6"
+                                        Padding="8,6"
+                                        Margin="0,0,0,6">
+                                    <TextBlock Text="{Binding Reason}"
+                                               FontSize="11"
+                                               Foreground="#a0e070"
+                                               TextWrapping="Wrap"/>
+                                </Border>
+                                <controls:GalleryCard DataContext="{Binding Post}"
+                                                      CardClicked="FeedCard_OnCardClicked"
+                                                      FavoriteClicked="FeedCard_OnFavoriteClicked"
+                                                      WatchLaterClicked="FeedCard_OnWatchLaterClicked"
+                                                      AddToListClicked="FeedCard_OnAddToListClicked"
+                                                      DownloadClicked="FeedCard_OnDownloadClicked"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <StackPanel x:Name="FeedEmptyPanel"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsHitTestVisible="False"
+                        Visibility="Collapsed">
+                <TextBlock x:Name="FeedEmptyTitleText"
+                           Style="{StaticResource EmptyStateTitle}"
+                           Text="For You is empty"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,10"/>
+                <TextBlock x:Name="FeedEmptySubtitleText"
+                           Style="{StaticResource EmptyStateSubtitle}"
+                           HorizontalAlignment="Center"
+                           MaxWidth="400"
+                           Text="Turn on learning in Settings, then browse, favorite, or download a few posts."/>
+            </StackPanel>
+        </Grid>
+        <controls:PageLoadingOverlay x:Name="LoadingOverlay"
+                                    Kind="ForYou"
+                                    Grid.RowSpan="4"
+                                    Panel.ZIndex="50"/>
+    </Grid>
+</Page>

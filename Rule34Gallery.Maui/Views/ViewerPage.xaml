@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:Rule34Gallery.Maui.ViewModels"
+             x:Class="Rule34Gallery.Maui.Views.ViewerPage"
+             x:DataType="vm:ViewerViewModel"
+             Title="Viewer"
+             BackgroundColor="Black">
+    <Grid RowDefinitions="*,Auto,Auto">
+        <Image Grid.Row="0" Source="{Binding MediaSource}" Aspect="AspectFit"
+               IsVisible="{Binding IsVideo, Converter={toolkit:InvertedBoolConverter}}" />
+        <Label Grid.Row="0" Text="Video — tap Web to play in browser"
+               IsVisible="{Binding IsVideo}" TextColor="#ccc"
+               VerticalOptions="Center" HorizontalOptions="Center" />
+        <ScrollView Grid.Row="1" MaximumHeightRequest="120">
+            <Label Text="{Binding TagsText}" TextColor="#ccc" FontSize="12" Margin="8" />
+        </ScrollView>
+        <HorizontalStackLayout Grid.Row="2" Padding="8" Spacing="8" HorizontalOptions="Center">
+            <Button Text="Prev" Command="{Binding PreviousCommand}" />
+            <Button Text="Next" Command="{Binding NextCommand}" />
+            <Button Text="★" Command="{Binding ToggleFavoriteCommand}" />
+            <Button Text="↓" Command="{Binding DownloadCommand}" />
+            <Button Text="Web" Command="{Binding OpenInBrowserCommand}" />
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>

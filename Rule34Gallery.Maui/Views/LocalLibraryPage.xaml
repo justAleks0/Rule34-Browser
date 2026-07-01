@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Rule34Gallery.Maui.ViewModels"
+             xmlns:controls="clr-namespace:Rule34Gallery.Maui.Controls"
+             xmlns:core="clr-namespace:Rule34Gallery.Core;assembly=Rule34Gallery.Core"
+             x:Class="Rule34Gallery.Maui.Views.LocalLibraryPage"
+             x:DataType="vm:LocalLibraryViewModel"
+             Title="Local"
+             BackgroundColor="#0D0D0D">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="12" RowSpacing="8">
+        <VerticalStackLayout Spacing="6">
+            <Label Text="{Binding RootPath}" TextColor="#888" LineBreakMode="TailTruncation" />
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="Pick folder" Command="{Binding PickFolderCommand}" />
+                <Button Text="Scan" Command="{Binding ScanCommand}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+        <Label Grid.Row="1" Text="{Binding StatusText}" TextColor="#a0e070" />
+        <CollectionView x:Name="LocalGallery" Grid.Row="2" ItemsSource="{Binding LocalPosts}" SelectionMode="Single" SelectionChanged="OnPostSelected">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="core:PostItem">
+                    <Grid Margin="4" HeightRequest="180">
+                        <Image Source="{Binding ThumbnailUrl}" Aspect="AspectFill" />
+                        <VerticalStackLayout VerticalOptions="End" BackgroundColor="#CC000000" Padding="6,4" Spacing="2">
+                            <Label Text="{Binding GalleryTitle}" TextColor="White" FontSize="12" FontAttributes="Bold"
+                                   LineBreakMode="TailTruncation" />
+                            <Label Text="{Binding GallerySubtitle}" TextColor="#CCCCCC" FontSize="10"
+                                   LineBreakMode="TailTruncation" IsVisible="{Binding HasGallerySubtitle}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <controls:PageLoadingOverlay Grid.RowSpan="4"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Fill"
+                                    Kind="LocalLibrary"
+                                    IsBusy="{Binding IsBusy}"
+                                    ZIndex="99" />
+    </Grid>
+</ContentPage>

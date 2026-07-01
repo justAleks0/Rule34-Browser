@@ -1,0 +1,44 @@
+<UserControl x:Class="Rule34GalleryApp.Views.Overlays.ChangelogDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Visibility="Collapsed">
+    <Grid Background="#CC000000">
+        <Border Background="{StaticResource SurfaceRaisedBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="12"
+                Padding="16"
+                Width="560"
+                MaxHeight="640"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <TextBlock Text="Changelog"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource TextBrush}"/>
+                    <Button Content="Close"
+                            HorizontalAlignment="Right"
+                            Width="70"
+                            Style="{StaticResource SecondaryButton}"
+                            Padding="8,4"
+                            Click="CloseButton_OnClick"/>
+                </Grid>
+
+                <FlowDocumentScrollViewer x:Name="ChangelogViewer"
+                                        Grid.Row="1"
+                                        Margin="0,12,0,0"
+                                        Height="440"
+                                        VerticalScrollBarVisibility="Auto"
+                                        Background="Transparent"
+                                        Foreground="{StaticResource TextBrush}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,71 @@
+---
+description: Bump, publish, and install desktop + Android on every change (unless user says skip)
+alwaysApply: true
+---
+
+# Version bump + install (desktop + Android)
+
+**Default:** every change that touches app code or user-visible behavior MUST:
+
+1. Bump **both** platform versions to the **same** semver
+2. **Publish and install** the new **PC** build
+3. **Publish** the Android APK and **install on the phone** if `adb devices` shows a connected device
+
+Skip any step only when the user explicitly says so (e.g. "don't bump", "skip install", "desktop only").
+
+## Version files (keep in sync)
+
+| Platform | File | Field |
+|----------|------|--------|
+| Desktop (WPF) | `Rule34GalleryApp/Rule34GalleryApp.csproj` | `<Version>x.y.z</Version>` |
+| Android | `C:\Users\aleks\AndroidStudioProjects\R34Browser\app\build.gradle.kts` | `versionName = "x.y.z"` + increment `versionCode` |
+| Changelog | `changelog.md` | New `## x.y.z` section with real bullets (not placeholder text) |
+| README | `README.md` | **Current version** line + feature bullets when user-visible behavior changes |
+
+See also `public-repo-hygiene.mdc` for changelog/README rules and secret gitignore requirements.
+
+After editing `changelog.md`, run `scripts/sync-changelog-android.ps1`.
+
+## Install (required after app changes)
+
+**Full pipeline** (bump → changelog sync → desktop publish/install → Android APK → phone install if detected):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/post-change-all.ps1
+```
+
+**Or step by step:**
+
+```powershell
+# Desktop
+powershell -ExecutionPolicy Bypass -File scripts/publish-windows.ps1
+powershell -ExecutionPolicy Bypass -File Install.ps1
+
+# Android (build always; install only if phone is connected)
+powershell -ExecutionPolicy Bypass -File scripts/publish-android.ps1
+powershell -ExecutionPolicy Bypass -File scripts/install-r34-android.ps1
+```
+
+- **PC:** always run `Install.ps1` from repo root (installs to `%LOCALAPPDATA%\Programs\Rule34Gallery`). Never use PH Browser paths.
+- **Phone:** `install-r34-android.ps1` checks `adb devices` — installs when a device is in `device` state; exits cleanly with a message if none connected.
+
+## Rules
+
+1. **Same version on both platforms** — never ship mismatched desktop/Android semver.
+2. **Bump even for small fixes** — patch bump is fine.
+3. **Install is not optional** for PC when app code changed — user should not have to ask.
+4. **Phone install is best-effort** — run the script every time; no device = skip with log, not a task failure.
+5. **Docs-only / `.cursor/` rules only** — versioning and install optional unless user wants them.
+6. **User override wins** — honor explicit skip instructions for that turn.
+
+## Final message
+
+Include:
+
+```markdown
+## Post-change
+- **Version:** x.y.z (desktop + Android)
+- **Desktop:** published + installed (or error)
+- **Android APK:** dist/R34Browser-release.apk
+- **Phone:** installed / no device detected / skipped (reason)
+```

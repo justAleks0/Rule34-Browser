@@ -1,0 +1,175 @@
+<ui:FluentWindow x:Class="Rule34GalleryApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:pages="clr-namespace:Rule34GalleryApp.Views.Pages"
+        xmlns:controls="clr-namespace:Rule34GalleryApp.Controls"
+        xmlns:overlays="clr-namespace:Rule34GalleryApp.Views.Overlays"
+        Title="Rule34 Gallery"
+        Icon="Assets/app.ico"
+        Height="900"
+        Width="1400"
+        MinHeight="680"
+        MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        ExtendsContentIntoTitleBar="True"
+        WindowBackdropType="Mica"
+        Closing="MainWindow_OnClosing"
+        PreviewKeyDown="MainWindow_OnPreviewKeyDown"
+        KeyDown="MainWindow_OnKeyDown"
+        PreviewMouseDown="MainWindow_OnPreviewMouseDown">
+    <Grid Background="{StaticResource BgBrush}">
+        <ui:NavigationView x:Name="RootNavigation"
+                           TitleBar="{Binding ElementName=AppTitleBar, Mode=OneWay}"
+                           PaneDisplayMode="LeftFluent"
+                           IsBackButtonVisible="Collapsed"
+                           OpenPaneLength="220"
+                           Transition="FadeInWithSlide">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="Browse"
+                                       TargetPageType="{x:Type pages:BrowsePage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Search24"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="For You"
+                                       TargetPageType="{x:Type pages:ForYouPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Sparkle24"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="Tag sets"
+                                       TargetPageType="{x:Type pages:SavedTagsPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Tag24"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="Library"
+                                       TargetPageType="{x:Type pages:LibraryPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Library24"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="Local"
+                                       TargetPageType="{x:Type pages:LocalLibraryPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Folder24"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="Downloads"
+                                       TargetPageType="{x:Type pages:DownloadsPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="ArrowDownload24"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="Cloud sync"
+                                       TargetPageType="{x:Type pages:SyncPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="ArrowSync24"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="Help / How To"
+                                       TargetPageType="{x:Type pages:HelpPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Book24"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.MenuItems>
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem Content="Settings"
+                                       TargetPageType="{x:Type pages:SettingsPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Settings24"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="Account"
+                                       TargetPageType="{x:Type pages:AccountPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Person24"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.FooterMenuItems>
+        </ui:NavigationView>
+
+        <!-- Must be a sibling (not only inside NavigationView) for drag + window buttons -->
+        <ui:TitleBar x:Name="AppTitleBar"
+                     Title=""
+                     Panel.ZIndex="200"
+                     VerticalAlignment="Top"
+                     ShowMinimize="True"
+                     ShowMaximize="True"
+                     ShowClose="True"
+                     ShowHelp="False"
+                     ButtonsForeground="{StaticResource TitleBarButtonIconBrush}">
+            <ui:TitleBar.TrailingContent>
+                <StackPanel x:Name="NavHistoryButtons"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Margin="0,0,8,0">
+                    <Button x:Name="NavBackButton"
+                            Content="←"
+                            Width="36"
+                            Height="28"
+                            Style="{StaticResource SecondaryButton}"
+                            Padding="0"
+                            FontSize="14"
+                            ToolTip="Back (mouse back button)"
+                            Click="NavBackButton_OnClick"/>
+                    <Button x:Name="NavForwardButton"
+                            Content="→"
+                            Width="36"
+                            Height="28"
+                            Margin="4,0,0,0"
+                            Style="{StaticResource SecondaryButton}"
+                            Padding="0"
+                            FontSize="14"
+                            ToolTip="Forward (mouse forward button)"
+                            Click="NavForwardButton_OnClick"/>
+                </StackPanel>
+            </ui:TitleBar.TrailingContent>
+        </ui:TitleBar>
+
+        <controls:UpdateBanner x:Name="UpdateBanner"
+                               Panel.ZIndex="190"/>
+
+        <controls:AppToast Panel.ZIndex="200"/>
+
+        <overlays:ImageViewerOverlay x:Name="Viewer"
+                                     Panel.ZIndex="150"/>
+
+        <overlays:LoginDialog x:Name="LoginDialog"
+                              Panel.ZIndex="160"/>
+
+        <overlays:PresetPickerOverlay x:Name="PresetPicker"
+                                      Panel.ZIndex="155"/>
+
+        <overlays:TagDiscoverOverlay x:Name="TagDiscover"
+                                     Panel.ZIndex="156"/>
+
+        <overlays:DownloadManagerOverlay x:Name="DownloadManager"
+                                         Panel.ZIndex="157"/>
+
+        <overlays:ThumbnailPickerOverlay x:Name="ThumbnailPicker"
+                                         Panel.ZIndex="158"/>
+
+        <overlays:ChangelogDialog x:Name="ChangelogDialog"
+                                   Panel.ZIndex="165"/>
+
+        <overlays:ForYouDataViewerDialog x:Name="ForYouDataViewer"
+                                         Panel.ZIndex="166"/>
+
+        <overlays:ForYouManageOverlay x:Name="ForYouManage"
+                                      Panel.ZIndex="159"/>
+
+        <TextBlock x:Name="VersionBadgeText"
+                   Panel.ZIndex="300"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   Margin="12,0,0,12"
+                   FontSize="11"
+                   Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                   Cursor="Hand"
+                   Text="v-"
+                   MouseLeftButtonUp="VersionBadgeText_OnMouseLeftButtonUp"/>
+    </Grid>
+</ui:FluentWindow>

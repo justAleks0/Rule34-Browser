@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Rule34Gallery.Maui.ViewModels"
+             xmlns:controls="clr-namespace:Rule34Gallery.Maui.Controls"
+             x:Class="Rule34Gallery.Maui.Views.TagDiscoverPage"
+             x:DataType="vm:TagDiscoverViewModel"
+             Title="Describe search"
+             BackgroundColor="#0D0D0D">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="16" Spacing="10">
+                <Label TextColor="#888" FontSize="12" LineHeight="18">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Uses your OpenAI API key (Settings) to suggest tags from a plain description." />
+                            <Span Text="&#10;" />
+                            <Span Text="Only Describe search needs this — Browse and downloads do not." FontAttributes="Bold" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Expander IsExpanded="False">
+                    <Expander.Header>
+                        <Label Text="How to get an OpenAI API key" TextColor="#a0e070" FontSize="12" />
+                    </Expander.Header>
+                    <VerticalStackLayout Padding="0,6,0,0" Spacing="4">
+                        <Label Text="1. Create an account at platform.openai.com" TextColor="#888" FontSize="12" />
+                        <Label Text="2. Open API keys and create a new secret key" TextColor="#888" FontSize="12" />
+                        <Label Text="3. Paste it in Settings → OpenAI API Key" TextColor="#888" FontSize="12" />
+                    </VerticalStackLayout>
+                </Expander>
+                <Picker Title="Mode"
+                        ItemsSource="{Binding ModeLabels}"
+                        SelectedIndex="{Binding SelectedModeIndex}"
+                        TextColor="White"
+                        TitleColor="#888" />
+                <Editor Text="{Binding Description}" Placeholder="Describe what you want to find..." TextColor="White" HeightRequest="120" />
+                <Button Text="Discover tags" Command="{Binding DiscoverCommand}" />
+                <Label Text="{Binding ResultsText}" TextColor="#ccc" />
+                <Button Text="Apply and search" Command="{Binding ApplyTagsCommand}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <controls:PageLoadingOverlay Kind="SavedTags"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Fill"
+                                    IsBusy="{Binding IsBusy}"
+                                    ZIndex="99" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,50 @@
+---
+description: LAST STEP before every reply that touched app code — run post-change pipeline
+alwaysApply: true
+---
+
+# Post-change pipeline (non-negotiable)
+
+If this conversation turn **edited or created** any file under:
+
+- `Rule34GalleryApp/`, `Rule34Gallery.Core/`, or
+- `C:\Users\aleks\AndroidStudioProjects\R34Browser\`
+
+**Rule34 Gallery and PH Browser are separate apps.** Windows installs must use `Programs\Rule34Gallery` / `Rule34Gallery.exe` only — never `Programs\PHBrowser` or `PHBrowser.exe`. Install scripts refuse wrong dist folders or executables.
+
+then your **last action before sending the final message** MUST be running the post-change pipeline (unless the user explicitly said to skip publish/install).
+
+**Do not** end the turn after `assembleDebug` or `dotnet build` alone — that is not enough.
+
+**Do not** assume Cursor hooks ran them — hooks are fail-open and skip Android-only edits.
+
+## Command (run from repo root)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/post-change-all.ps1
+```
+
+This does: version bump → `changelog.md` → Android `assets/changelog.md` sync → Windows publish → `Install.ps1` → `dist/R34Browser-release.apk` → phone install via `install-r34-android.ps1` when `adb devices` shows a connected device.
+
+Flags only if user asked: `-SkipInstall`, `-SkipAndroid`, `-SkipDesktop`.
+
+## After the script
+
+1. Fix the new `changelog.md` entry if the bump script added generic "Auto version bump" text — replace with real bullets.
+2. Re-run `scripts/sync-changelog-android.ps1` if you edited `changelog.md` after the bump.
+
+## Every final message must include
+
+```markdown
+## Post-change
+- **Version:** x.y.z (desktop + Android)
+- **Desktop:** published + installed (or error)
+- **Android APK:** dist/R34Browser-release.apk (or error)
+- **Phone:** installed / no device detected / skipped (reason)
+```
+
+If you did not run the pipeline, say why and give the exact command for the user — do not pretend it ran.
+
+## User should not have to ask
+
+Never wait for "remember post-change" / "do the after change stuff". Treat omission as a task failure.

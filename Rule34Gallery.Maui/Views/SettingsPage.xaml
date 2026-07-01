@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Rule34Gallery.Maui.ViewModels"
+             x:Class="Rule34Gallery.Maui.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             Title="Settings"
+             BackgroundColor="#0D0D0D">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="10">
+            <Label Text="Rule34 API" TextColor="#a0e070" FontAttributes="Bold" />
+            <Label TextColor="#888" FontSize="12" LineHeight="18">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Used to authenticate with rule34.xxx when searching posts, opening galleries, and downloading files." />
+                        <Span Text="&#10;" />
+                        <Span Text="Required for Browse and downloads. Local library and favorites work without it." FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding UserId}" Placeholder="User ID" TextColor="White" />
+            <Entry Text="{Binding ApiKey}" Placeholder="API Key" IsPassword="True" TextColor="White" />
+            <Expander IsExpanded="False">
+                <Expander.Header>
+                    <Label Text="How to get your API key" TextColor="#a0e070" FontSize="12" />
+                </Expander.Header>
+                <VerticalStackLayout Padding="0,6,0,0" Spacing="4">
+                    <Label Text="1. Log in at rule34.xxx" TextColor="#888" FontSize="12" />
+                    <Label Text="2. Open Account → Options" TextColor="#888" FontSize="12" />
+                    <Label Text="3. Copy the green credential box (User ID + API key)" TextColor="#888" FontSize="12" />
+                    <Label Text="4. Paste into User ID or API Key — both fields fill in automatically" TextColor="#888" FontSize="12" />
+                </VerticalStackLayout>
+            </Expander>
+
+            <Label Text="OpenAI (Describe search)" TextColor="#a0e070" FontAttributes="Bold" Margin="0,8,0,0" />
+            <Label TextColor="#888" FontSize="12" LineHeight="18">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Used for Describe search — turns a plain description into tag suggestions via OpenAI." />
+                        <Span Text="&#10;" />
+                        <Span Text="Optional. Browse, library, downloads, and local files work without it." FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding OpenAiApiKey}" Placeholder="OpenAI API Key" IsPassword="True" TextColor="White" />
+            <Entry Text="{Binding OpenAiModel}" Placeholder="Model" TextColor="White" />
+            <Expander IsExpanded="False">
+                <Expander.Header>
+                    <Label Text="How to get an OpenAI API key" TextColor="#a0e070" FontSize="12" />
+                </Expander.Header>
+                <VerticalStackLayout Padding="0,6,0,0" Spacing="4">
+                    <Label Text="1. Create an account at platform.openai.com" TextColor="#888" FontSize="12" />
+                    <Label Text="2. Open API keys in your account settings" TextColor="#888" FontSize="12" />
+                    <Label Text="3. Create a new secret key and paste it above" TextColor="#888" FontSize="12" />
+                </VerticalStackLayout>
+            </Expander>
+
+            <Label Text="Filters" TextColor="#a0e070" FontAttributes="Bold" Margin="0,8,0,0" />
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding RatingSafe}" /><Label Text="Safe" TextColor="White" />
+                <CheckBox IsChecked="{Binding RatingQuestionable}" /><Label Text="Questionable" TextColor="White" />
+                <CheckBox IsChecked="{Binding RatingExplicit}" /><Label Text="Explicit" TextColor="White" />
+            </HorizontalStackLayout>
+            <CheckBox IsChecked="{Binding FilterAi}" /><Label Text="Filter AI" TextColor="White" />
+
+            <Label Text="For You" TextColor="#a0e070" FontAttributes="Bold" Margin="0,8,0,0" />
+            <Label TextColor="#888" FontSize="12" LineHeight="18">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Learns from searches, opened posts, favorites, watch later, and downloads." />
+                        <Span Text="&#10;" />
+                        <Span Text="Derived interests only are synced, not your raw activity." FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding ForYouEnabled}" /><Label Text="Enable learning" TextColor="White" />
+            </HorizontalStackLayout>
+            <VerticalStackLayout Margin="16,0,0,8" Spacing="4" IsEnabled="{Binding ForYouEnabled}">
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ForYouLearnArtists}" /><Label Text="Artist learning" TextColor="White" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ForYouLearnSeries}" /><Label Text="Series learning" TextColor="White" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ForYouLearnMinorTags}" /><Label Text="Minor tags (1girl, …)" TextColor="White" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding ForYouCloudSync}" /><Label Text="Sync derived profile when signed in" TextColor="White" />
+            </HorizontalStackLayout>
+
+            <Button Text="Save" Command="{Binding SaveCommand}" BackgroundColor="#4a7a3a" TextColor="White" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

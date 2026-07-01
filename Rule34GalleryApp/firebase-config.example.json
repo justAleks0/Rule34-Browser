@@ -1,0 +1,6 @@
+{
+  "apiKey": "YOUR_FIREBASE_WEB_API_KEY",
+  "projectId": "YOUR_FIREBASE_PROJECT_ID",
+  "googleClientId": "YOUR_GOOGLE_WEB_CLIENT_ID.apps.googleusercontent.com",
+  "googleClientSecret": "YOUR_GOOGLE_WEB_CLIENT_SECRET"
+}

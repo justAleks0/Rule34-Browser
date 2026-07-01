@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Rule34Gallery.Maui.ViewModels"
+             xmlns:core="clr-namespace:Rule34Gallery.Core;assembly=Rule34Gallery.Core"
+             x:Class="Rule34Gallery.Maui.Views.DownloadsPage"
+             x:DataType="vm:DownloadsViewModel"
+             Title="Downloads"
+             BackgroundColor="#0D0D0D">
+    <VerticalStackLayout Padding="12" Spacing="8">
+        <Button Text="Clear finished" Command="{Binding ClearFinishedCommand}" />
+        <CollectionView x:Name="JobsList" ItemsSource="{Binding Jobs}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="core:DownloadJob">
+                    <Grid Padding="8" ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding FileName}" TextColor="White" />
+                            <Label Text="{Binding Status}" TextColor="#888" FontSize="12" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="Cancel" Clicked="OnCancelClicked" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

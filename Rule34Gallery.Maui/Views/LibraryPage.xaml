@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Rule34Gallery.Maui.ViewModels"
+             xmlns:controls="clr-namespace:Rule34Gallery.Maui.Controls"
+             xmlns:core="clr-namespace:Rule34Gallery.Core;assembly=Rule34Gallery.Core"
+             xmlns:firebase="clr-namespace:Rule34Gallery.Core.Firebase;assembly=Rule34Gallery.Core"
+             x:Class="Rule34Gallery.Maui.Views.LibraryPage"
+             x:DataType="vm:LibraryViewModel"
+             Title="Library"
+             BackgroundColor="#0D0D0D">
+    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="12" RowSpacing="8">
+        <Label Text="{Binding StatusText}" TextColor="#a0e070" />
+        <HorizontalStackLayout Grid.Row="1" Spacing="8">
+            <Button Text="Favorites" Command="{Binding LoadFavoritesCommand}" />
+            <Button Text="Refresh lists" Command="{Binding RefreshListsCommand}" />
+            <Button Text="New list" Command="{Binding CreateListCommand}" />
+        </HorizontalStackLayout>
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Lists}" SelectedItem="{Binding SelectedList}" SelectionMode="Single" HeightRequest="100">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="firebase:SavedList">
+                    <Label Text="{Binding Name}" TextColor="White" Padding="8" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Grid.Row="2" Text="Load list" Command="{Binding LoadSelectedListCommand}" VerticalOptions="End" />
+        <CollectionView x:Name="Gallery" Grid.Row="3" ItemsSource="{Binding Posts}" SelectionMode="Single" SelectionChanged="OnPostSelected">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="core:PostItem">
+                    <Image Source="{Binding ThumbnailUrl}" HeightRequest="140" Aspect="AspectFill" Margin="4" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <controls:PageLoadingOverlay Grid.RowSpan="4"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Fill"
+                                    Kind="Library"
+                                    IsBusy="{Binding IsBusy}"
+                                    ZIndex="99" />
+    </Grid>
+</ContentPage>

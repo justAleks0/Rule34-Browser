@@ -1,0 +1,33 @@
+<Page x:Class="Rule34GalleryApp.Views.Pages.HelpPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:Rule34GalleryApp.Controls"
+      Title="Help / How To"
+      Background="{StaticResource BgBrush}"
+      VerticalAlignment="Stretch"
+      HorizontalAlignment="Stretch">
+    <Grid>
+        <ScrollViewer x:Name="HelpScroll"
+                      VerticalAlignment="Stretch"
+                      VerticalScrollBarVisibility="Visible"
+                      HorizontalScrollBarVisibility="Disabled"
+                      CanContentScroll="False"
+                      PanningMode="VerticalOnly">
+            <StackPanel Margin="20,16,20,24" MaxWidth="720">
+                <TextBlock Style="{StaticResource PageTitleText}"
+                           Text="Help / How To"
+                           Margin="0,0,0,8"/>
+                <TextBlock Style="{StaticResource BrowseSectionHint}"
+                           Text="Tutorials for Windows (full control). There is also a Lite Android companion — see Windows &amp; Android. Expand any topic for steps."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,12"/>
+                <StackPanel x:Name="TopicsPanel"/>
+            </StackPanel>
+        </ScrollViewer>
+        <controls:PageLoadingOverlay x:Name="LoadingOverlay"
+                                    Kind="Help"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Panel.ZIndex="50"/>
+    </Grid>
+</Page>

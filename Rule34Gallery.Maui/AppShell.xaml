@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:Rule34Gallery.Maui.Views"
+       x:Class="Rule34Gallery.Maui.AppShell"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.TabBarBackgroundColor="#0D0D0D"
+       Shell.TabBarForegroundColor="#a0e070"
+       Shell.TabBarUnselectedColor="#888"
+       Title="Rule34 Gallery">
+
+    <TabBar>
+        <ShellContent Title="For You" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate views:ForYouPage}" Route="ForYou" />
+        <ShellContent Title="Browse" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate views:BrowsePage}" Route="Browse" />
+        <ShellContent Title="Library" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate views:LibraryPage}" Route="Library" />
+        <ShellContent Title="Local" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate views:LocalLibraryPage}" Route="Local" />
+        <ShellContent Title="Help" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate views:HelpPage}" Route="Help" />
+        <ShellContent Title="Settings" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate views:SettingsPage}" Route="Settings" />
+        <ShellContent Title="Account" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate views:AccountPage}" Route="Account" />
+    </TabBar>
+
+</Shell>

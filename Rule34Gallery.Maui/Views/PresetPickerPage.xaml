@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Rule34Gallery.Maui.ViewModels"
+             xmlns:core="clr-namespace:Rule34Gallery.Core;assembly=Rule34Gallery.Core"
+             x:Class="Rule34Gallery.Maui.Views.PresetPickerPage"
+             x:DataType="vm:PresetPickerViewModel"
+             Title="Presets"
+             BackgroundColor="#0D0D0D">
+    <CollectionView>
+        <CollectionView.ItemsSource>
+            <Binding Path="SearchPresets" />
+        </CollectionView.ItemsSource>
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="core:SearchPreset">
+                <Button Text="{Binding Name}" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PresetPickerViewModel}}, Path=ToggleSearchPresetCommand}"
+                        CommandParameter="{Binding .}" Margin="8,4" />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

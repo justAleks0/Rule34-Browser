@@ -1,0 +1,70 @@
+---
+description: Public GitHub repo hygiene — gitignore, changelog, README, versions on every change
+alwaysApply: true
+---
+
+# Public repo hygiene (Rule34-Browser)
+
+Repo: https://github.com/justAleks0/Rule34-Browser (public). Treat every change as potentially publishable.
+
+## Before finishing a task
+
+### 1. Secrets & `.gitignore`
+
+Never commit credentials or local config. These must stay gitignored:
+
+- `firebase-config.json`, `firebase-session.dat`, API keys, `.env`, keystores (`.pfx`, `.jks`), `google-services.json`
+- `dist/`, `bin/`, `obj/`, `*.apk`, build artifacts
+
+If a new secret path or generated output appears, **add it to `.gitignore` at repo root** in the same turn. Android native project (`R34Browser`) has its own repo — apply the same rules there when editing it.
+
+### 2. Version numbers (app changes only)
+
+When behavior or user-visible UI changes (see `version-bump-always.mdc`):
+
+| Platform | File | Field |
+|----------|------|--------|
+| Desktop | `Rule34GalleryApp/Rule34GalleryApp.csproj` | `<Version>x.y.z</Version>` |
+| Android | `R34Browser/app/build.gradle.kts` | `versionName` + increment `versionCode` |
+| README | `README.md` | **Current version** line at top |
+
+Same semver on both platforms. Docs-only / `.cursor/` rules-only → skip bump unless user asks.
+
+### 3. Changelog (`changelog.md`)
+
+Every version bump needs a new `## x.y.z - YYYY-MM-DD` section at the **top** with **real bullets**:
+
+**Do:**
+- Name the surface: `(PC)`, `(Android)`, or `(PC + Android)`
+- Describe what the user sees or what was fixed
+- One bullet per distinct change; bold the feature/area label
+
+**Do not:**
+- `Auto version bump`, `Maintenance release`, `quality changes`, `fallback`, `Publish/install refresh`
+- Empty sections or bullets that only say the version was updated
+
+After editing changelog, run `scripts/sync-changelog-android.ps1`.
+
+**Example (good):**
+```markdown
+## 2.0.80 - 2026-07-02
+
+- **Auto-update (PC):** Banner no longer shows when the GitHub release API returns 404.
+- **Settings (Android):** Added manual “Check for updates now” on the sync screen.
+```
+
+### 4. README (`README.md`)
+
+Update when features, platforms, or major behavior change. README describes **what the project is**, not how to clone/build/install.
+
+**Include:** product summary, client roles table, feature areas, releases link, config note (secrets local/gitignored), changelog pointer.
+
+**Exclude from README:** step-by-step `git clone`, `dotnet build`, install scripts, architecture deep-dives, mermaid diagrams — keep those in scripts, wiki, or separate docs if needed.
+
+When shipping something new, add or extend a bullet under the right **Features** subsection and bump **Current version** at the top.
+
+### 5. Final message checklist
+
+If app code changed, include the post-change block from `publish-and-install-after-edits.mdc`.
+
+If only docs/rules changed, say so and skip publish/install.

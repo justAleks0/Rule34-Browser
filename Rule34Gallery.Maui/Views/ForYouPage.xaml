@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Rule34Gallery.Maui.ViewModels"
+             xmlns:controls="clr-namespace:Rule34Gallery.Maui.Controls"
+             xmlns:core="clr-namespace:Rule34Gallery.Core;assembly=Rule34Gallery.Core"
+             x:Class="Rule34Gallery.Maui.Views.ForYouPage"
+             x:DataType="vm:ForYouViewModel"
+             Title="For You"
+             BackgroundColor="#0D0D0D">
+    <Grid x:Name="ForYouRoot" RowDefinitions="Auto,Auto,Auto,*,Auto" Padding="12" RowSpacing="10">
+        <VerticalStackLayout Grid.Row="0" Spacing="6">
+            <Label Text="For You" FontSize="28" FontAttributes="Bold" TextColor="#a0e070" />
+            <Label Text="{Binding StatusText}" TextColor="#888" FontSize="12" />
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="Refresh" Command="{Binding RefreshCommand}" />
+                <Button Text="Toggle learning" Command="{Binding ToggleLearningCommand}" />
+                <Button Text="Reset" Command="{Binding ResetProfileCommand}" BackgroundColor="#5a2f2f" TextColor="White" />
+            </HorizontalStackLayout>
+            <Expander IsExpanded="False" IsEnabled="{Binding LearningCategoriesEnabled}">
+                <Expander.Header>
+                    <Label Text="Learning categories" TextColor="#a0e070" FontAttributes="Bold" FontSize="12" />
+                </Expander.Header>
+                <VerticalStackLayout Spacing="4" Padding="8,4,0,0">
+                    <HorizontalStackLayout>
+                        <CheckBox IsChecked="{Binding LearnArtists}" /><Label Text="Artist learning" TextColor="#ddd" FontSize="12" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout>
+                        <CheckBox IsChecked="{Binding LearnSeries}" /><Label Text="Series learning" TextColor="#ddd" FontSize="12" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout>
+                        <CheckBox IsChecked="{Binding LearnMinorTags}" /><Label Text="Minor tags (1girl, …)" TextColor="#ddd" FontSize="12" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Expander>
+            <Expander IsExpanded="False">
+                <Expander.Header>
+                    <Label Text="Sort &amp; filter" TextColor="#a0e070" FontAttributes="Bold" FontSize="12" />
+                </Expander.Header>
+                <VerticalStackLayout Spacing="8" Padding="0,6,0,0">
+                    <Label Text="Sort" TextColor="#888" FontSize="11" />
+                    <Picker ItemsSource="{Binding FeedSortOptions}"
+                            SelectedIndex="{Binding FeedSortIndex}"
+                            TextColor="White"
+                            Title="Sort" />
+                    <Label Text="Filter" TextColor="#888" FontSize="11" />
+                    <Picker ItemsSource="{Binding FeedFilterOptions}"
+                            SelectedIndex="{Binding FeedFilterIndex}"
+                            TextColor="White"
+                            Title="Filter" />
+                </VerticalStackLayout>
+            </Expander>
+            <Expander IsExpanded="False">
+                <Expander.Header>
+                    <Border BackgroundColor="#172018"
+                            Stroke="#2f4a2e"
+                            StrokeThickness="1"
+                            Padding="10,8"
+                            StrokeShape="RoundRectangle 14">
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="i" TextColor="#a0e070" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center" />
+                            <Label Text="How this page works"
+                                   TextColor="#a0e070"
+                                   FontAttributes="Bold"
+                                   VerticalTextAlignment="Center" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </Expander.Header>
+                <Border BackgroundColor="#111111"
+                        Stroke="#2a2a2a"
+                        StrokeThickness="1"
+                        Padding="12"
+                        Margin="0,6,0,0"
+                        StrokeShape="RoundRectangle 14">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="For You learns from what you search, open, favorite, save for later, and download."
+                               TextColor="#ddd"
+                               FontSize="12"
+                               LineBreakMode="WordWrap" />
+                        <Label Text="It slowly builds a topic profile, then uses that to rank posts and suggest searches."
+                               TextColor="#ddd"
+                               FontSize="12"
+                               LineBreakMode="WordWrap" />
+                        <Label Text="Add topics yourself and set score (0–100), or pin and hide to steer the feed."
+                               TextColor="#ddd"
+                               FontSize="12"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Border>
+            </Expander>
+        </VerticalStackLayout>
+
+        <Expander Grid.Row="1" IsExpanded="True">
+            <Expander.Header>
+                <Border BackgroundColor="#172018"
+                        Stroke="#2f4a2e"
+                        StrokeThickness="1"
+                        Padding="10,8"
+                        StrokeShape="RoundRectangle 14">
+                    <Label Text="Search ideas" TextColor="#a0e070" FontAttributes="Bold" />
+                </Border>
+            </Expander.Header>
+            <Border BackgroundColor="#141414" Stroke="#2a2a2a" StrokeThickness="1" Padding="10" Margin="0,6,0,0" StrokeShape="RoundRectangle 14">
+                <CollectionView ItemsSource="{Binding SearchIdeas}"
+                                SelectionMode="None"
+                                HeightRequest="68">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="core:SearchPresetRecommendation">
+                            <Button Text="{Binding Name}"
+                                    Command="{Binding BindingContext.OpenSearchIdeaCommand, Source={x:Reference ForYouRoot}}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#20311d"
+                                    TextColor="White"
+                                    Padding="14,10" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </Expander>
+
+        <Expander Grid.Row="2" IsExpanded="True">
+            <Expander.Header>
+                <Border BackgroundColor="#172018"
+                        Stroke="#2f4a2e"
+                        StrokeThickness="1"
+                        Padding="10,8"
+                        StrokeShape="RoundRectangle 14">
+                    <Label Text="Topic profile" TextColor="#a0e070" FontAttributes="Bold" />
+                </Border>
+            </Expander.Header>
+            <Border BackgroundColor="#141414" Stroke="#2a2a2a" StrokeThickness="1" Padding="10" Margin="0,6,0,0" StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="8">
+                <Button Text="Add topic"
+                        Command="{Binding AddManualTopicCommand}"
+                        BackgroundColor="#20311d"
+                        TextColor="White"
+                        HorizontalOptions="Start" />
+                <CollectionView ItemsSource="{Binding Topics}" SelectionMode="None" HeightRequest="190">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="core:ForYouTopicProfile">
+                            <Border BackgroundColor="#1b1b1b" Stroke="#2d2d2d" StrokeThickness="1" Padding="10" Margin="0,0,0,8" StrokeShape="RoundRectangle 12">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                        <Label Text="{Binding Topic}" TextColor="White" FontAttributes="Bold" />
+                                        <Label Text="{Binding Why}" TextColor="#888" FontSize="11" />
+                                    </VerticalStackLayout>
+                                    <HorizontalStackLayout Grid.Column="1" Spacing="6">
+                                        <Button Text="Pin/Unpin"
+                                                Command="{Binding BindingContext.PinTopicCommand, Source={x:Reference ForYouRoot}}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#2d4220"
+                                                TextColor="White"
+                                                Padding="10,6" />
+                                        <Button Text="Hide"
+                                                Command="{Binding BindingContext.HideTopicCommand, Source={x:Reference ForYouRoot}}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#4a2a2a"
+                                                TextColor="White"
+                                                Padding="10,6" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="6" Margin="0,8,0,0">
+                                        <Label Text="{Binding Score, StringFormat='Score {0:F1}'}"
+                                               TextColor="#a0e070"
+                                               VerticalTextAlignment="Center" />
+                                        <Button Text="Set"
+                                                Command="{Binding BindingContext.SetTopicStrengthCommand, Source={x:Reference ForYouRoot}}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#2d4220"
+                                                TextColor="White"
+                                                Padding="10,6" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+        </Expander>
+
+        <CollectionView Grid.Row="3"
+                        ItemsSource="{Binding FeedItems}"
+                        SelectionMode="Single"
+                        SelectionChanged="OnFeedItemSelected">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="core:ForYouFeedItem">
+                    <Border BackgroundColor="#141414" Stroke="#2a2a2a" StrokeThickness="1" Margin="4" StrokeShape="RoundRectangle 16">
+                        <VerticalStackLayout Spacing="8" Padding="0,0,0,10">
+                            <Grid HeightRequest="190">
+                                <Image Source="{Binding Post.ThumbnailUrl}" Aspect="AspectFill" />
+                                <Grid BackgroundColor="#60000000">
+                                    <VerticalStackLayout VerticalOptions="End" Padding="12" Spacing="4">
+                                        <Label Text="{Binding Title}" TextColor="White" FontAttributes="Bold" FontSize="18" />
+                                        <Label Text="{Binding Subtitle}" TextColor="#ddd" FontSize="11" LineBreakMode="TailTruncation" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Grid>
+                            <Label Text="{Binding Reason}" TextColor="#888" FontSize="11" Margin="12,0" />
+                            <HorizontalStackLayout Spacing="8" Margin="12,0">
+                                <Button Text="Open"
+                                        Command="{Binding BindingContext.OpenPostCommand, Source={x:Reference ForYouRoot}}"
+                                        CommandParameter="{Binding Post}" />
+                                <Button Text="More like this"
+                                        Command="{Binding BindingContext.LikeRecommendationCommand, Source={x:Reference ForYouRoot}}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#20311d"
+                                        TextColor="White" />
+                                <Button Text="Hide"
+                                        Command="{Binding BindingContext.HideRecommendationCommand, Source={x:Reference ForYouRoot}}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#4a2a2a"
+                                        TextColor="White" />
+                                <Button Text="★"
+                                        Command="{Binding BindingContext.ToggleFavoriteCommand, Source={x:Reference ForYouRoot}}"
+                                        CommandParameter="{Binding Post}" />
+                                <Button Text="↓"
+                                        Command="{Binding BindingContext.DownloadPostCommand, Source={x:Reference ForYouRoot}}"
+                                        CommandParameter="{Binding Post}" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <controls:PageLoadingOverlay Grid.RowSpan="5"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Fill"
+                                    Kind="ForYou"
+                                    IsBusy="{Binding IsBusy}"
+                                    ZIndex="99" />
+    </Grid>
+</ContentPage>

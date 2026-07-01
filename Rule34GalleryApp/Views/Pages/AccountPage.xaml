@@ -1,0 +1,121 @@
+<Page x:Class="Rule34GalleryApp.Views.Pages.AccountPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:Rule34GalleryApp.Controls"
+      Title="Account"
+      Background="{StaticResource BgBrush}"
+      VerticalAlignment="Stretch"
+      HorizontalAlignment="Stretch">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer x:Name="AccountScroll"
+                      Grid.Row="0"
+                      VerticalAlignment="Stretch"
+                      VerticalScrollBarVisibility="Visible"
+                      HorizontalScrollBarVisibility="Disabled"
+                      CanContentScroll="False"
+                      PanningMode="VerticalOnly">
+            <StackPanel Margin="20,16,20,24" MaxWidth="640">
+                <TextBlock Style="{StaticResource PageTitleText}"
+                           Text="Account"
+                           Margin="0,0,0,4"/>
+                <TextBlock Style="{StaticResource BrowseSectionHint}"
+                           Text="Sign-in here also powers the Lite Android app — use the same Google account on your phone."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,16"/>
+
+                <Border Background="{StaticResource SurfaceRaisedBrush}"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource CardCornerRadius}"
+                        Padding="16"
+                        Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SettingsSubHeader}"
+                                   Text="Android companion"
+                                   Margin="0,0,0,6"/>
+                        <TextBlock Style="{StaticResource MutedText}"
+                                   TextWrapping="Wrap"
+                                   FontSize="12"
+                                   Text="Rule34 Gallery on Android is the Lite version: browse, personalized For You, and saved lists. Install it on your phone, sign in with this account, then run Cloud sync on either device."/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="{StaticResource SurfaceRaisedBrush}"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource CardCornerRadius}"
+                        Padding="20"
+                        Margin="0,0,0,24">
+                    <StackPanel>
+                        <Border Width="64"
+                                Height="64"
+                                CornerRadius="32"
+                                Background="#243a1a"
+                                Margin="0,0,0,16"
+                                HorizontalAlignment="Left">
+                            <TextBlock Text="R34"
+                                       FontWeight="Bold"
+                                       FontSize="18"
+                                       Foreground="{StaticResource R34GreenBrush}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+
+                        <TextBlock x:Name="AccountStatusText"
+                                   Style="{StaticResource MutedText}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,16"/>
+
+                        <Button x:Name="SignInButton"
+                                Content="Sign in"
+                                Style="{StaticResource PrimaryButton}"
+                                HorizontalAlignment="Left"
+                                Padding="20,10"
+                                Margin="0,0,0,8"
+                                Click="SignInButton_OnClick"/>
+                        <Button x:Name="GoogleSignInButton"
+                                Content="Sign in with Google"
+                                Style="{StaticResource SecondaryButton}"
+                                HorizontalAlignment="Left"
+                                Padding="20,10"
+                                Margin="0,0,0,8"
+                                Click="GoogleSignInButton_OnClick"/>
+                        <Button x:Name="SignOutButton"
+                                Content="Sign out"
+                                Style="{StaticResource SecondaryButton}"
+                                HorizontalAlignment="Left"
+                                Padding="20,10"
+                                Visibility="Collapsed"
+                                Click="SignOutButton_OnClick"/>
+                    </StackPanel>
+                </Border>
+
+                <controls:AccountCredentialsPanel x:Name="CredentialsPanel" Margin="0,0,0,20"/>
+
+                <TextBlock Style="{StaticResource SettingsCategoryHeader}" Text="Cloud sync" Margin="0,0,0,8"/>
+                <Border Style="{StaticResource BrowseSectionCard}">
+                    <StackPanel>
+                        <TextBlock x:Name="CloudSyncStatusText"
+                                   Style="{StaticResource MutedText}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,12"/>
+                        <Button x:Name="OpenSyncTabButton"
+                                Content="Open Cloud sync tab"
+                                Style="{StaticResource SecondaryButton}"
+                                HorizontalAlignment="Left"
+                                Click="OpenSyncTabButton_OnClick"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+        <controls:PageLoadingOverlay x:Name="LoadingOverlay"
+                                    Kind="Account"
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Panel.ZIndex="50"/>
+    </Grid>
+</Page>

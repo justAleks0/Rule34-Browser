@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Rule34Gallery.Maui.ViewModels"
+             xmlns:controls="clr-namespace:Rule34Gallery.Maui.Controls"
+             xmlns:core="clr-namespace:Rule34Gallery.Core;assembly=Rule34Gallery.Core"
+             x:Class="Rule34Gallery.Maui.Views.BrowsePage"
+             x:DataType="vm:BrowseViewModel"
+             Title="Browse"
+             BackgroundColor="#0D0D0D">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="12" RowSpacing="8">
+        <VerticalStackLayout Grid.Row="0" Spacing="6">
+            <Entry Text="{Binding TagInput}" Placeholder="Add tags..." TextColor="White" PlaceholderColor="#888"
+                   ReturnCommand="{Binding AddIncludeTagCommand}" />
+            <HorizontalStackLayout Spacing="6">
+                <Button Text="Add tag" Command="{Binding AddIncludeTagCommand}" />
+                <Button Text="Presets" Command="{Binding OpenPresetsCommand}" />
+                <Button Text="Describe" Command="{Binding OpenTagDiscoverCommand}" />
+            </HorizontalStackLayout>
+            <Label Text="Describe search uses your OpenAI key (Settings). Optional — Browse works without it."
+                   TextColor="#666" FontSize="11" />
+            <Entry Text="{Binding BlacklistInput}" Placeholder="Blacklist tags..." TextColor="White" PlaceholderColor="#888" />
+            <Button Text="Search" Command="{Binding SearchCommand}" BackgroundColor="#4a7a3a" TextColor="White" />
+        </VerticalStackLayout>
+
+        <Label Grid.Row="1" Text="{Binding StatusText}" TextColor="#a0e070" />
+
+        <CollectionView x:Name="GalleryView" Grid.Row="2" ItemsSource="{Binding Posts}"
+                        SelectionMode="Single" SelectionChanged="OnPostSelected">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="core:PostItem">
+                    <Frame Padding="0" Margin="4" BackgroundColor="#1a1a1a" BorderColor="#333" HasShadow="False" HeightRequest="180">
+                        <Grid>
+                            <Image Source="{Binding ThumbnailUrl}" Aspect="AspectFill" />
+                            <Label Text="{Binding Rating}" TextColor="White" VerticalOptions="End" Margin="8" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <HorizontalStackLayout Grid.Row="3" Spacing="8" HorizontalOptions="Center">
+            <Button Text="Prev" Command="{Binding PrevPageCommand}" />
+            <Button Text="Next" Command="{Binding NextPageCommand}" />
+        </HorizontalStackLayout>
+
+        <controls:PageLoadingOverlay Grid.RowSpan="4"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Fill"
+                                    Kind="Browse"
+                                    IsBusy="{Binding IsBusy}"
+                                    ZIndex="99" />
+    </Grid>
+</ContentPage>

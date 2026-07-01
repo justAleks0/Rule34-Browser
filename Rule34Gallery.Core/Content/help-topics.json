@@ -1,0 +1,343 @@
+{
+  "topics": [
+    {
+      "id": "getting-started",
+      "title": "Getting started",
+      "platforms": ["desktop", "android", "maui"],
+      "summary": "Set up your Rule34 API credentials before searching or downloading.",
+      "bullets": [
+        "Two apps, one account: Windows is full control; Android is Lite (browse, save, sync).",
+        "Log in at rule34.xxx, then open Account → Options.",
+        "Copy the green credential box (User ID and API key).",
+        "Paste into either field on the Account tab — both fill in automatically.",
+        "Browse and downloads require credentials; local files and some library features work without them."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "Train For You, edit tag sets, block lists, downloads, and local library here — then Cloud sync."
+        ],
+        "android": [
+          "Sign in with the same Google account as PC, then Cloud sync to pull your profile."
+        ]
+      },
+      "navigateTo": {
+        "desktop": "account",
+        "android": "account",
+        "maui": "account"
+      }
+    },
+    {
+      "id": "companion-apps",
+      "title": "Windows & Android",
+      "platforms": ["desktop", "android"],
+      "summary": "Two apps, one account — Windows is full control; Android is the Lite phone companion.",
+      "bullets": [
+        "Same Google sign-in and Cloud sync keep favorites, lists, tag sets, and For You in sync.",
+        "Windows: train For You, edit tag sets, block lists, downloads, local library, and host phone remote.",
+        "Android: browse, For You feed, saved lists — tuned profiles and tag sets arrive from Windows after sync.",
+        "Use the same email on both devices. On Android, pick that account when Google sign-in asks.",
+        "Optional: Android can drive this PC over Wi‑Fi via Phone remote (PC hosts, phone controls)."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "You are on the full Windows app — changes here sync to the Lite Android companion.",
+          "Install Rule34 Gallery on your phone (release APK), sign in, then Cloud sync on either side.",
+          "Settings → Phone remote (LAN) lets the Android app search and control this PC."
+        ],
+        "android": [
+          "You are on the Lite Android app — browse and enjoy; deep tuning happens on Windows.",
+          "Install Rule34 Gallery on PC, sign in with this same account, train For You there, then Cloud sync here.",
+          "Settings → Cloud sync pulls your PC profile. For You → Refresh after sync.",
+          "Settings → Drive PC from phone opens the remote when your PC has Phone remote enabled."
+        ]
+      },
+      "navigateTo": {
+        "desktop": "settings",
+        "android": "settings"
+      }
+    },
+    {
+      "id": "searching-tagging",
+      "title": "Searching & tagging",
+      "platforms": ["desktop", "android", "maui"],
+      "summary": "Combine tags to narrow results. Everything you add must match (AND logic).",
+      "bullets": [
+        "Add include tags one at a time — each tag narrows the search.",
+        "Use exclude tags (prefix with -) to hide topics you do not want.",
+        "The API query preview shows the exact string sent to Rule34.",
+        "Supported in-app: AND tags, -excludes, rating:/score:/sort: via filters, artist/character/copyright fields.",
+        "Advanced syntax (OR groups, width:, parent:, md5:) is not built into the tag chips — see the cheat sheet for power-user queries you can type as single tokens."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "Browse → Search & filters: add tags, exclude tags, and search presets.",
+          "Save current tags with Save tags… or from the Tag sets tab."
+        ],
+        "android": [
+          "Lite Browse: expand search, Add tag + Presets. Block lists & Describe live under More filters.",
+          "Full tag-set editing on Windows; Android applies synced sets from Settings → Apply tag sets."
+        ],
+        "maui": [
+          "Browse: add tags and open Search presets from the toolbar.",
+          "Save current tags from the preset picker."
+        ]
+      },
+      "link": {
+        "url": "https://rule34.xxx/index.php?page=help&topic=cheatsheet",
+        "label": "Rule34 search cheat sheet"
+      },
+      "navigateTo": {
+        "desktop": "browse",
+        "android": "browse",
+        "maui": "browse"
+      }
+    },
+    {
+      "id": "filter-results",
+      "title": "Filter results",
+      "platforms": ["desktop", "android", "maui"],
+      "summary": "Refine what appears without changing your core tags.",
+      "bullets": [
+        "Allowed ratings: limit to safe, questionable, and/or explicit.",
+        "Media type: images only, videos, GIFs, or all animated.",
+        "Sort order: score, date, or random.",
+        "Minimum score: hide low-scored posts (Rule34 updates scores daily).",
+        "Block AI-generated art adds -ai* to the query on Rule34."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "Browse → Filter results… popup, or set defaults in Settings → Browse defaults."
+        ],
+        "android": [
+          "Lite: Filter AI + exclude tags under Browse → More filters. Defaults in Settings → Browse."
+        ],
+        "maui": [
+          "Browse → filter controls. Defaults live in Settings."
+        ]
+      },
+      "navigateTo": {
+        "desktop": "browse",
+        "android": "browse",
+        "maui": "browse"
+      }
+    },
+    {
+      "id": "describe-search",
+      "title": "Describe search / Discover",
+      "platforms": ["desktop", "android", "maui"],
+      "summary": "Optional OpenAI-assisted tag discovery from plain-language descriptions.",
+      "bullets": [
+        "Requires an OpenAI API key on the Account tab (or Settings on MAUI).",
+        "Describe what you want in normal words; the app suggests booru-ready tag lines.",
+        "Forgot the name? mode uses web search + AI to suggest character identities — not tags.",
+        "Browse, library, and downloads work without OpenAI."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "Browse → Describe search… opens the tag discover overlay."
+        ],
+        "android": [
+          "Optional on Lite: Browse → More filters → Describe. Full questionnaire modes on Windows."
+        ],
+        "maui": [
+          "Browse → Describe search opens the discover page."
+        ]
+      },
+      "navigateTo": {
+        "desktop": "browse",
+        "android": "browse",
+        "maui": "browse"
+      }
+    },
+    {
+      "id": "for-you",
+      "title": "For You",
+      "platforms": ["desktop", "android", "maui"],
+      "summary": "Personalized feed based on your activity — not raw history.",
+      "bullets": [
+        "Learns from searches, opened posts, favorites, watch later, and downloads.",
+        "Add topics manually and set score from 0 (weak) to 100 (strongest). Learning still nudges topics in small 0–1 signal steps.",
+        "Use Manage on the For You page to open a large in-app menu for topics, suggested searches, and signals.",
+        "Shows suggested search lines you can pin, hide, or run.",
+        "Sign in to sync the profile across devices (derived interests only).",
+        "Reset or clear the profile from For You or Settings when you want a fresh start."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "Full control: Manage topics (pin, score 0–100, hide), suggested searches, and recent signals.",
+          "Settings → For You: learning, cloud sync, and OpenAI profile summary."
+        ],
+        "android": [
+          "Lite For You tab: personalized feed, interest chips (tap to search), and try-searching lines.",
+          "No topic tuning on phone — train on Windows, enable For You profile sync in Settings, then Refresh."
+        ],
+        "maui": [
+          "Similar to desktop: full For You management on MAUI."
+        ]
+      },
+      "navigateTo": {
+        "desktop": "foryou",
+        "android": "for_you",
+        "maui": "ForYou"
+      }
+    },
+    {
+      "id": "tag-sets",
+      "title": "Tag sets",
+      "platforms": ["desktop", "android"],
+      "summary": "Save named tag combinations and re-apply them with one tap.",
+      "bullets": [
+        "Save the tags you are currently searching with as a named preset.",
+        "Active presets add their tags to every search (AND with manual tags).",
+        "Sign in to sync tag sets across desktop and Android."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "Tag sets tab: apply, edit, delete, save current, and sync from cloud.",
+          "Browse → Save tags… or Search presets… for quick access."
+        ],
+        "android": [
+          "Lite: Settings → Apply tag sets — tap Apply. Edit & delete available; authoring is easiest on PC.",
+          "Quick save: Browse → More filters → Save tags."
+        ]
+      },
+      "navigateTo": {
+        "desktop": "tagsets",
+        "android": "saved_tags"
+      }
+    },
+    {
+      "id": "library-saved",
+      "title": "Library / Saved",
+      "platforms": ["desktop", "android", "maui"],
+      "summary": "Keep posts you care about — favorites, watch later, and custom lists.",
+      "bullets": [
+        "Sign in with Google to sync lists to Firebase.",
+        "Favorite or add to watch later from the viewer or card actions.",
+        "Custom lists let you organize posts like playlists."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "Library tab: Favorites, Watch Later, and Lists sub-tabs."
+        ],
+        "android": [
+          "Saved tab: favorites, watch later, and lists in one place."
+        ],
+        "maui": [
+          "Library tab: favorites, watch later, and lists."
+        ]
+      },
+      "navigateTo": {
+        "desktop": "library",
+        "android": "saved",
+        "maui": "Library"
+      }
+    },
+    {
+      "id": "local-library",
+      "title": "Local library",
+      "platforms": ["desktop", "maui"],
+      "summary": "Browse image and video folders on your PC without hitting the API.",
+      "bullets": [
+        "Add folder roots in Settings; the app scans for media files.",
+        "Set a download destination library so saves land in the right place.",
+        "Works offline — no API key required."
+      ],
+      "navigateTo": {
+        "desktop": "local",
+        "maui": "Local"
+      }
+    },
+    {
+      "id": "downloads",
+      "title": "Downloads",
+      "platforms": ["desktop"],
+      "summary": "Save posts to your local library from search or the viewer.",
+      "bullets": [
+        "Queue downloads from the viewer or gallery cards.",
+        "Open Downloads tab to track progress, retry failures, and open files.",
+        "Pick the destination folder in Settings → Local libraries."
+      ],
+      "navigateTo": {
+        "desktop": "downloads"
+      }
+    },
+    {
+      "id": "viewer-layouts",
+      "title": "Viewer & layouts",
+      "platforms": ["desktop", "android", "maui"],
+      "summary": "Browse results as a grid or vertical feed; open posts full-screen.",
+      "bullets": [
+        "Grid: classic thumbnail wall with infinite scroll near the end.",
+        "Feed: one post at a time — good for videos and swiping.",
+        "Viewer: prev/next, favorite, download, open on rule34.xxx, tag chips on the post."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "Browse toolbar: Grid / Feed toggle. Mouse back/forward also navigates app history."
+        ],
+        "android": [
+          "Lite: grid or feed (Settings → Browse). Search collapsed by default — tap ▼ to add tags."
+        ],
+        "maui": [
+          "Browse: tap a card to open the viewer overlay."
+        ]
+      },
+      "navigateTo": {
+        "desktop": "browse",
+        "android": "browse",
+        "maui": "browse"
+      }
+    },
+    {
+      "id": "phone-remote",
+      "title": "Phone remote",
+      "platforms": ["desktop", "android"],
+      "summary": "Control the desktop app from your phone on the same Wi‑Fi.",
+      "bullets": [
+        "On PC: Settings → Phone remote (LAN) → enable and note the QR code and 6-digit code.",
+        "On phone: Settings → Open PC remote → scan QR or enter IP + code.",
+        "Remote can search, change pages, add/clear tags, and drive the viewer."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "Allow the app through Windows Firewall if the phone cannot connect."
+        ],
+        "android": [
+          "Power feature on Lite: Settings → From your PC → Drive PC from phone.",
+          "Phone is the remote; PC hosts the session on the same Wi‑Fi."
+        ]
+      },
+      "navigateTo": {
+        "desktop": "settings",
+        "android": "remote"
+      }
+    },
+    {
+      "id": "cloud-sync",
+      "title": "Cloud sync & sign-in",
+      "platforms": ["desktop", "android", "maui"],
+      "summary": "Sign in once to sync lists, tag sets, and For You across devices.",
+      "bullets": [
+        "Account tab → Sign in with Google (Firebase).",
+        "Cloud sync control center shows local vs cloud counts before you upload or download.",
+        "Choose Merge (keep both) or Replace all when applying changes.",
+        "Favorites, watch later, lists, saved tag sets, credentials, and For You profile sync when signed in.",
+        "Configure firebase-config.json for self-hosted builds (see README)."
+      ],
+      "platformBullets": {
+        "desktop": [
+          "Cloud sync page: status banner, data explorer tree, per-item checkboxes, upload/download, activity log."
+        ],
+        "android": [
+          "Cloud sync: category preview, View items sheet, Upload/Download with merge or replace."
+        ]
+      },
+      "navigateTo": {
+        "desktop": "sync",
+        "android": "sync",
+        "maui": "Account"
+      }
+    }
+  ]
+}

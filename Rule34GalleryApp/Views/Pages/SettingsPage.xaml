@@ -1,0 +1,460 @@
+<Page x:Class="Rule34GalleryApp.Views.Pages.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:Rule34GalleryApp.Controls"
+      Title="Settings"
+      Background="{StaticResource BgBrush}"
+      VerticalAlignment="Stretch"
+      HorizontalAlignment="Stretch">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer x:Name="SettingsScroll"
+                      Grid.Row="0"
+                      VerticalAlignment="Stretch"
+                      VerticalScrollBarVisibility="Visible"
+                      HorizontalScrollBarVisibility="Disabled"
+                      CanContentScroll="False"
+                      PanningMode="VerticalOnly">
+        <StackPanel Margin="20,16,20,24" MaxWidth="640">
+            <TextBlock Style="{StaticResource PageTitleText}"
+                       Text="Settings"
+                       Margin="0,0,0,4"/>
+            <TextBlock Style="{StaticResource BrowseSectionHint}"
+                       Text="Full control — filters, storage, phone remote, and For You training sync to mobile Lite."
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,12"/>
+
+            <TextBlock Style="{StaticResource SettingsCategoryHeader}" Text="Updates"/>
+            <Border Style="{StaticResource BrowseSectionCard}" Margin="0,0,0,16">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Check for updates on startup"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <CheckBox x:Name="CheckUpdatesOnStartupCheckBox"
+                                  Style="{StaticResource ToggleSwitchStyle}"
+                                  Checked="CheckUpdatesOnStartup_OnChanged"
+                                  Unchecked="CheckUpdatesOnStartup_OnChanged"/>
+                    </StackPanel>
+                    <Button Content="Check for updates now"
+                            Style="{StaticResource SecondaryButton}"
+                            HorizontalAlignment="Left"
+                            Padding="12,6"
+                            Click="CheckForUpdatesNow_OnClick"/>
+                    <TextBlock Style="{StaticResource MutedText}"
+                               Text="Downloads from GitHub Releases when a newer desktop build is published."
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource SettingsCategoryHeader}" Text="Android companion (Lite)"/>
+            <TextBlock Style="{StaticResource BrowseSectionHint}"
+                       Text="Rule34 Gallery on your phone — same account, lighter UI."
+                       Margin="0,0,0,8"/>
+            <Border Style="{StaticResource BrowseSectionCard}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource BodyText}"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,8"
+                               Text="Install the Android app on your phone, sign in with the same Google account, then Cloud sync. Your For You profile, tag sets, favorites, and API credentials flow to the phone."/>
+                    <TextBlock Style="{StaticResource MutedText}"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Margin="0,0,0,4"
+                               Text="• Phone: Browse, For You feed, Saved — no topic score editor or downloads queue"/>
+                    <TextBlock Style="{StaticResource MutedText}"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Margin="0,0,0,4"
+                               Text="• PC: train For You, edit tag sets, local library, downloads — then sync"/>
+                    <TextBlock Style="{StaticResource MutedText}"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Text="• Optional: Phone remote (below) lets Android drive this Windows app on Wi‑Fi"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource SettingsCategoryHeader}" Text="Browse defaults"/>
+            <TextBlock Style="{StaticResource BrowseSectionHint}"
+                       Text="Default options for new searches on the Browse tab."
+                       Margin="0,0,0,8"/>
+            <Border Style="{StaticResource BrowseSectionCard}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Results per page"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <ComboBox x:Name="LimitCombo" Width="72" SelectionChanged="LimitCombo_OnChanged">
+                            <ComboBoxItem Content="25"/>
+                            <ComboBoxItem Content="50"/>
+                            <ComboBoxItem Content="100"/>
+                            <ComboBoxItem Content="200"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Default layout"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <ComboBox x:Name="BrowseLayoutCombo" Width="120" SelectionChanged="BrowseLayoutCombo_OnChanged">
+                            <ComboBoxItem Content="Grid"/>
+                            <ComboBoxItem Content="Feed"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Feed media quality"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <ComboBox x:Name="FeedMediaQualityCombo" Width="120" SelectionChanged="FeedMediaQualityCombo_OnChanged">
+                            <ComboBoxItem Content="Sample (faster)"/>
+                            <ComboBoxItem Content="Full quality"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Filter AI posts"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <CheckBox x:Name="FilterAiCheckBox"
+                                  Style="{StaticResource ToggleSwitchStyle}"
+                                  Checked="FilterAi_OnChanged"
+                                  Unchecked="FilterAi_OnChanged"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource SettingsCategoryHeader}" Text="Video playback"/>
+            <TextBlock Style="{StaticResource BrowseSectionHint}"
+                       Text="Buffered videos and GIFs for faster loading in the viewer and feed."
+                       Margin="0,0,0,8"/>
+            <Border Style="{StaticResource BrowseSectionCard}" Margin="0,0,0,16">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Keep video cache between sessions"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <CheckBox x:Name="KeepMediaCacheCheckBox"
+                                  Style="{StaticResource ToggleSwitchStyle}"
+                                  Checked="KeepMediaCache_OnChanged"
+                                  Unchecked="KeepMediaCache_OnChanged"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource MutedText}"
+                               Text="Off (default): cache is cleared when you close the app. On: keep buffered files for faster replays (up to 3 GB on disk)."
+                               TextWrapping="Wrap"
+                               FontSize="12"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource SettingsCategoryHeader}" Text="For You"/>
+            <TextBlock Style="{StaticResource BrowseSectionHint}"
+                       Text="Full training hub — learns from activity, builds topics &amp; scores, syncs derived profile to Android Lite."
+                       Margin="0,0,0,8"/>
+            <Border Style="{StaticResource BrowseSectionCard}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Enable learning"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <CheckBox x:Name="ForYouEnabledCheckBox"
+                                  Style="{StaticResource ToggleSwitchStyle}"
+                                  Checked="ForYouEnabled_OnChanged"
+                                  Unchecked="ForYouEnabled_OnChanged"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource MutedText}"
+                               FontSize="11"
+                               Text="Tag types to learn from"
+                               Margin="0,0,0,8"/>
+                    <StackPanel x:Name="ForYouLearnCategoriesPanel" Margin="12,0,0,0">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <CheckBox x:Name="ForYouLearnArtistsCheckBox"
+                                      Style="{StaticResource ToggleSwitchStyle}"
+                                      Margin="0,0,10,0"
+                                      VerticalAlignment="Center"
+                                      Checked="ForYouLearnCategory_OnChanged"
+                                      Unchecked="ForYouLearnCategory_OnChanged"/>
+                            <TextBlock Style="{StaticResource BodyText}"
+                                       Text="Artists"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <CheckBox x:Name="ForYouLearnSeriesCheckBox"
+                                      Style="{StaticResource ToggleSwitchStyle}"
+                                      Margin="0,0,10,0"
+                                      VerticalAlignment="Center"
+                                      Checked="ForYouLearnCategory_OnChanged"
+                                      Unchecked="ForYouLearnCategory_OnChanged"/>
+                            <TextBlock Style="{StaticResource BodyText}"
+                                       Text="Series"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <CheckBox x:Name="ForYouLearnMinorTagsCheckBox"
+                                      Style="{StaticResource ToggleSwitchStyle}"
+                                      Margin="0,0,10,0"
+                                      VerticalAlignment="Center"
+                                      Checked="ForYouLearnCategory_OnChanged"
+                                      Unchecked="ForYouLearnCategory_OnChanged"/>
+                            <TextBlock Style="{StaticResource BodyText}"
+                                       Text="Minor tags (1girl, …)"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Sync profile when signed in"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <CheckBox x:Name="ForYouCloudSyncCheckBox"
+                                  Style="{StaticResource ToggleSwitchStyle}"
+                                  Checked="ForYouCloudSync_OnChanged"
+                                  Unchecked="ForYouCloudSync_OnChanged"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Use OpenAI for For You profile"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <CheckBox x:Name="UseOpenAiForForYouCheckBox"
+                                  Style="{StaticResource ToggleSwitchStyle}"
+                                  Checked="UseOpenAiForForYou_OnChanged"
+                                  Unchecked="UseOpenAiForForYou_OnChanged"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource SettingsCategoryHeader}" Text="Tag filters"/>
+            <TextBlock Style="{StaticResource BrowseSectionHint}"
+                       Text="Control which tags are hidden from results."
+                       Margin="0,0,0,8"/>
+            <Border Style="{StaticResource BrowseSectionCard}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource SettingsSubHeader}" Text="Always hidden (app-wide)"/>
+                    <TextBlock Style="{StaticResource BrowseSectionHint}"
+                               Text="Hidden everywhere — Browse, Library, Local, and search."
+                               Margin="0,0,0,8"/>
+                    <WrapPanel x:Name="GlobalBlockedTagsPanel" Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="GlobalBlockInput"
+                                 Grid.Column="0"
+                                 Style="{StaticResource R34FieldTextBox}"
+                                 Margin="0,0,8,0"
+                                 ToolTip="Tag to block everywhere"
+                                 TextChanged="GlobalBlockInput_OnTextChanged"
+                                 KeyDown="GlobalBlockInput_OnKeyDown"/>
+                        <Button Grid.Column="1"
+                                Content="Block"
+                                Style="{StaticResource SecondaryButton}"
+                                Click="AddGlobalBlockButton_OnClick"/>
+                    </Grid>
+
+                    <TextBlock Style="{StaticResource SettingsSubHeader}" Text="Search excludes"/>
+                    <TextBlock Style="{StaticResource BrowseSectionHint}"
+                               Text="Extra -tags for API searches only."
+                               Margin="0,0,0,8"/>
+                    <Button x:Name="ManageBlacklistPresetsButton"
+                            Content="Manage block presets…"
+                            Style="{StaticResource SecondaryButton}"
+                            HorizontalAlignment="Left"
+                            Margin="0,0,0,10"
+                            Click="ManageBlacklistPresetsButton_OnClick"/>
+                    <WrapPanel x:Name="BlacklistTagsPanel" Margin="0,0,0,8"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="BlacklistInput"
+                                 Grid.Column="0"
+                                 Style="{StaticResource R34FieldTextBox}"
+                                 Margin="0,0,8,0"
+                                 ToolTip="Custom exclude tag"
+                                 TextChanged="BlacklistInput_OnTextChanged"
+                                 KeyDown="BlacklistInput_OnKeyDown"/>
+                        <Button Grid.Column="1"
+                                Content="Add"
+                                Style="{StaticResource SecondaryButton}"
+                                Click="AddBlacklistButton_OnClick"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource SettingsCategoryHeader}" Text="Storage"/>
+            <TextBlock Style="{StaticResource BrowseSectionHint}"
+                       Text="Where downloaded files are saved."
+                       Margin="0,0,0,8"/>
+            <Border Style="{StaticResource BrowseSectionCard}">
+                <StackPanel>
+                    <Button Content="Open download manager"
+                            Style="{StaticResource PrimaryButton}"
+                            HorizontalAlignment="Left"
+                            Margin="0,0,0,14"
+                            Click="OpenDownloadManagerButton_OnClick"/>
+                    <TextBlock Style="{StaticResource SettingsSubHeader}" Text="Download library"/>
+                    <TextBlock Style="{StaticResource BrowseSectionHint}"
+                               Text="Files go into category subfolders with .meta.json sidecars."
+                               Margin="0,0,0,8"/>
+                    <ComboBox x:Name="DownloadLibraryCombo"
+                              DisplayMemberPath="Name"
+                              Margin="0,0,0,6"
+                              SelectionChanged="DownloadLibraryCombo_OnSelectionChanged"/>
+                    <TextBlock x:Name="DownloadLibraryPathText"
+                               Style="{StaticResource MutedText}"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource SettingsCategoryHeader}" Text="Phone remote (LAN)"/>
+            <TextBlock Style="{StaticResource BrowseSectionHint}"
+                       Text="On Android: Settings → Open PC remote — scan the QR code or enter the 6-digit code (same Wi‑Fi)."
+                       Margin="0,0,0,8"
+                       TextWrapping="Wrap"/>
+            <Border Style="{StaticResource BrowseSectionCard}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Enable remote"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <CheckBox x:Name="RemoteEnabledCheckBox"
+                                  Style="{StaticResource ToggleSwitchStyle}"
+                                  Checked="RemoteSettings_OnChanged"
+                                  Unchecked="RemoteSettings_OnChanged"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock Style="{StaticResource BodyText}"
+                                   Text="Port"
+                                   VerticalAlignment="Center"
+                                   Width="48"/>
+                        <TextBox x:Name="RemotePortInput"
+                                 Width="80"
+                                 Style="{StaticResource R34FieldTextBox}"
+                                 LostFocus="RemoteSettings_OnChanged"/>
+                    </StackPanel>
+                    <StackPanel x:Name="RemotePairingPanel" Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource SettingsSubHeader}" Text="Pair with phone"/>
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Background="White"
+                                    Padding="8"
+                                    CornerRadius="8"
+                                    Margin="0,0,16,0"
+                                    VerticalAlignment="Top">
+                                <Image x:Name="RemoteQrImage"
+                                       Width="160"
+                                       Height="160"
+                                       Stretch="Uniform"/>
+                            </Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource BrowseSectionHint}"
+                                           Text="6-digit code"
+                                           Margin="0,0,0,4"/>
+                                <TextBlock x:Name="RemotePinText"
+                                           FontSize="32"
+                                           FontWeight="Bold"
+                                           Foreground="{StaticResource R34GreenBrush}"
+                                           Margin="0,0,0,8"/>
+                                <TextBlock x:Name="RemotePinExpiryText"
+                                           Style="{StaticResource MutedText}"
+                                           Margin="0,0,0,8"/>
+                                <Button Content="New code"
+                                        Style="{StaticResource SecondaryButton}"
+                                        HorizontalAlignment="Left"
+                                        Click="RefreshRemotePin_OnClick"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                    <Expander Style="{StaticResource R34Expander}"
+                              Header="Advanced: copy connection string"
+                              Margin="0,0,0,8">
+                        <StackPanel Margin="0,6,0,0">
+                            <TextBox x:Name="RemoteConnectionText"
+                                     Style="{StaticResource R34FieldTextBox}"
+                                     IsReadOnly="True"
+                                     TextWrapping="Wrap"
+                                     Margin="0,0,0,8"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Copy"
+                                        Style="{StaticResource SecondaryButton}"
+                                        Margin="0,0,8,0"
+                                        Click="CopyRemoteConnection_OnClick"/>
+                                <Button Content="New token"
+                                        Style="{StaticResource SecondaryButton}"
+                                        Click="RegenerateRemoteToken_OnClick"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander>
+                    <TextBlock x:Name="RemoteStatusText"
+                               Style="{StaticResource MutedText}"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        </ScrollViewer>
+
+    <Popup x:Name="GlobalBlockAutocompletePopup"
+           Grid.Row="0"
+           PlacementTarget="{Binding ElementName=GlobalBlockInput}"
+           Placement="Bottom"
+           StaysOpen="False"
+           AllowsTransparency="True">
+        <Border Background="{StaticResource SurfaceRaisedBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                MinWidth="{Binding ActualWidth, ElementName=GlobalBlockInput}"
+                MaxHeight="220">
+            <ListBox x:Name="GlobalBlockAutocompleteList"
+                     BorderThickness="0"
+                     Background="Transparent"
+                     SelectionChanged="GlobalBlockAutocompleteList_OnSelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <controls:TagChip TagText="{Binding Value}" Category="{Binding Category}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+    </Popup>
+
+    <Popup x:Name="BlacklistAutocompletePopup"
+           Grid.Row="0"
+           PlacementTarget="{Binding ElementName=BlacklistInput}"
+           Placement="Bottom"
+           StaysOpen="False"
+           AllowsTransparency="True">
+        <Border Background="{StaticResource SurfaceRaisedBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                MinWidth="{Binding ActualWidth, ElementName=BlacklistInput}"
+                MaxHeight="220">
+            <ListBox x:Name="BlacklistAutocompleteList"
+                     BorderThickness="0"
+                     Background="Transparent"
+                     SelectionChanged="BlacklistAutocompleteList_OnSelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <controls:TagChip TagText="{Binding Value}" Category="{Binding Category}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+    </Popup>
+    </Grid>
+</Page>

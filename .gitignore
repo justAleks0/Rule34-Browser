@@ -1,0 +1,70 @@
+# --- Secrets & local credentials (never commit to public repo) ---
+**/firebase-config.json
+**/firebase-session.dat
+**/*.pfx
+**/*.key
+**/*.pem
+.env
+.env.*
+secrets.json
+**/google-services.json
+**/GoogleService-Info.plist
+
+# --- Build outputs & distributables ---
+dist/
+**/bin/
+**/obj/
+**/publish/
+*.apk
+*.aab
+*.msix
+
+# --- .NET / Visual Studio ---
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# --- JetBrains / IDE ---
+.idea/
+*.iml
+
+# --- OS junk ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# --- Cursor / local workspace artifacts ---
+assets/c__Users_*/
+.codex-appdata/
+
+# --- Test / coverage ---
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# --- NuGet ---
+*.nuget.props
+*.nuget.targets
+packages/
+!**/packages/build/

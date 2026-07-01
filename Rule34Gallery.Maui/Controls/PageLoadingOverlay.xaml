@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rule34Gallery.Maui.Controls.PageLoadingOverlay"
+             HorizontalOptions="Fill"
+             VerticalOptions="Fill"
+             IsVisible="False"
+             InputTransparent="True">
+    <Grid BackgroundColor="#55000000"
+          HorizontalOptions="Fill"
+          VerticalOptions="Fill">
+        <Border BackgroundColor="#1a1a1a"
+                Stroke="#333"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 14"
+                Padding="28,22"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                MaximumWidthRequest="340">
+            <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                <Label x:Name="IconLabel"
+                       FontSize="42"
+                       TextColor="#a0e070"
+                       HorizontalTextAlignment="Center"
+                       FontAttributes="Bold" />
+                <Label x:Name="MessageLabel"
+                       Text="Loading…"
+                       TextColor="#888"
+                       FontSize="13"
+                       HorizontalTextAlignment="Center"
+                       LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>

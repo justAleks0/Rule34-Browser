@@ -1,0 +1,101 @@
+<UserControl x:Class="Rule34GalleryApp.Views.Overlays.PresetPickerOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Visibility="Collapsed"
+             Focusable="True"
+             KeyDown="PresetPickerOverlay_OnKeyDown">
+    <Grid Background="#CC000000"
+          MouseDown="Backdrop_OnMouseDown">
+        <Border Background="{StaticResource SurfaceRaisedBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="12"
+                Padding="20"
+                MaxWidth="560"
+                MaxHeight="680"
+                Width="560"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                MouseDown="DialogPanel_OnMouseDown">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="HeaderText"
+                           Grid.Row="0"
+                           Text="Presets"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextBrush}"
+                           Margin="0,0,0,6"/>
+
+                <TextBlock x:Name="DescriptionText"
+                           Grid.Row="1"
+                           TextWrapping="Wrap"
+                           Foreground="{StaticResource MutedBrush}"
+                           FontSize="13"
+                           Margin="0,0,0,12"/>
+
+                <TextBox x:Name="SearchInput"
+                         Grid.Row="2"
+                         Style="{StaticResource R34FieldTextBox}"
+                         Margin="0,0,0,12"
+                         ToolTip="Filter by name, description, or tag"
+                         TextChanged="SearchInput_OnTextChanged"
+                         KeyDown="SearchInput_OnKeyDown"/>
+
+                <Border Grid.Row="3"
+                        Background="#121212"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="12"
+                        MinHeight="320">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel>
+                            <TextBlock x:Name="NoResultsText"
+                                       Text="No presets match your search."
+                                       Foreground="{StaticResource MutedBrush}"
+                                       FontSize="13"
+                                       Visibility="Collapsed"
+                                       Margin="0,8,0,8"/>
+                            <WrapPanel x:Name="PresetsPanel"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+
+                <TextBlock x:Name="SummaryText"
+                           Grid.Row="4"
+                           Foreground="{StaticResource SubtleBrush}"
+                           FontSize="12"
+                           TextWrapping="Wrap"
+                           Margin="0,12,0,12"/>
+
+                <StackPanel Grid.Row="5"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <Button x:Name="SaveTagsButton"
+                            Content="Save current tags…"
+                            Style="{StaticResource SecondaryButton}"
+                            MinWidth="140"
+                            Padding="16,8"
+                            Margin="0,0,8,0"
+                            Visibility="Collapsed"
+                            Click="SaveTagsButton_OnClick"/>
+                    <Button Content="Done"
+                            Style="{StaticResource PrimaryButton}"
+                            MinWidth="100"
+                            Padding="20,8"
+                            Click="DoneButton_OnClick"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
