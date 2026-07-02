@@ -84,7 +84,8 @@ Refusing to publish generic text like 'Release $Tag'.
 }
 
 $notesFile = Join-Path $env:TEMP "Rule34Gallery-release-notes-$Tag.md"
-Set-Content -Path $notesFile -Value $Notes -Encoding UTF8
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText($notesFile, $Notes, $utf8NoBom)
 
 if ($EditOnly) {
     Write-Host "Updating GitHub release notes for $Tag ..." -ForegroundColor Cyan
