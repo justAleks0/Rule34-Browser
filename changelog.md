@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 2.0.81 - 2026-07-02
+
+- **Startup crash fix (PC):** Update banner used missing WPF theme resources (`AccentButton`, card brushes), which crashed the app on launch before the main window appeared.
+
 ## 2.0.80 - 2026-07-01
 
 - **Auto-update (PC + Android):** Update checker now targets the live repo [justAleks0/Rule34-Browser](https://github.com/justAleks0/Rule34-Browser) on GitHub Releases (was a placeholder repo name).

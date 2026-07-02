@@ -7,8 +7,8 @@
             Padding="14,10"
             CornerRadius="10"
             BorderThickness="1"
-            BorderBrush="{StaticResource CardStrokeColorDefaultBrush}"
-            Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{StaticResource BorderBrush}"
+            Background="{StaticResource SurfaceRaisedBrush}"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top">
         <Grid>
@@ -25,7 +25,7 @@
                            TextWrapping="Wrap"
                            FontSize="13"
                            Margin="0,4,0,0"
-                           Foreground="{StaticResource TextFillColorSecondaryBrush}"/>
+                           Foreground="{StaticResource MutedBrush}"/>
                 <ProgressBar x:Name="DownloadProgress"
                              Height="6"
                              Margin="0,8,0,0"
@@ -38,7 +38,7 @@
                         VerticalAlignment="Center">
                 <Button x:Name="PrimaryButton"
                         Content="Download"
-                        Style="{StaticResource AccentButton}"
+                        Style="{StaticResource PrimaryButton}"
                         Padding="12,6"
                         Margin="0,0,6,0"
                         Click="PrimaryButton_OnClick"/>
