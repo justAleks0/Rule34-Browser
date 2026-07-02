@@ -8,7 +8,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Rule34Gallery</AssemblyName>
     <Product>Rule34 Gallery</Product>
-    <Version>2.0.81</Version>
+    <Version>2.0.82</Version>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
     <PublishReadyToRun>true</PublishReadyToRun>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>

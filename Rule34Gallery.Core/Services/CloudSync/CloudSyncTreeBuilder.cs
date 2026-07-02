@@ -6,6 +6,8 @@ public static class CloudSyncTreeBuilder
 {
     private const int MaxVisiblePostLeaves = 200;
 
+    private const int MaxVisibleActivityLeaves = 100;
+
     public static List<SyncDataNode> Build(CloudSyncSnapshot local, CloudSyncSnapshot cloud)
     {
         return
@@ -252,28 +254,61 @@ public static class CloudSyncTreeBuilder
 
         var localActs = localProfile?.Activities ?? [];
         var cloudActs = cloudProfile?.Activities ?? [];
-        var actChildren = localActs
-            .Select(ActivityKey)
-            .Concat(cloudActs.Select(ActivityKey))
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .OrderBy(id => id, StringComparer.OrdinalIgnoreCase)
-            .Select(key =>
+        var activityEntries = localActs
+            .Select(a => (Key: ActivityKey(a), Activity: a, IsLocal: true))
+            .Concat(cloudActs.Select(a => (Key: ActivityKey(a), Activity: a, IsLocal: false)))
+            .GroupBy(x => x.Key, StringComparer.OrdinalIgnoreCase)
+            .OrderByDescending(g => g.Max(x => x.Activity.TimestampUtc))
+            .ThenBy(g => g.Key, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        var allActLeafIds = activityEntries
+            .Select(g => $"foryou:activity:{g.Key}")
+            .ToList();
+
+        var actChildren = activityEntries
+            .Take(MaxVisibleActivityLeaves)
+            .Select(g =>
             {
-                var localHas = localActs.Any(a => ActivityKey(a).Equals(key, StringComparison.OrdinalIgnoreCase));
-                var cloudHas = cloudActs.Any(a => ActivityKey(a).Equals(key, StringComparison.OrdinalIgnoreCase));
+                var sample = g.First().Activity;
+                var localHas = g.Any(x => x.IsLocal);
+                var cloudHas = g.Any(x => !x.IsLocal);
                 return new SyncDataNode
                 {
-                    Id = $"foryou:activity:{key}",
-                    Label = key,
+                    Id = $"foryou:activity:{g.Key}",
+                    Label = FormatActivityLabel(sample),
                     Kind = SyncNodeKind.Leaf,
                     Category = SyncDataCategory.ForYou,
                     LocalCount = localHas ? 1 : 0,
                     CloudCount = cloudHas ? 1 : 0,
                     Status = StatusFor(localHas, cloudHas),
+                    Detail = g.Key,
                 };
             })
             .ToList();
-        children.Add(Category("foryou:activities", "Activities", SyncDataCategory.ForYou, actChildren));
+
+        if (activityEntries.Count > MaxVisibleActivityLeaves)
+        {
+            var overflow = activityEntries.Count - MaxVisibleActivityLeaves;
+            actChildren.Add(new SyncDataNode
+            {
+                Id = "foryou:activities:overflow",
+                Label = $"… and {overflow:N0} more learning events (use parent checkbox to select all)",
+                Kind = SyncNodeKind.Leaf,
+                Category = SyncDataCategory.ForYou,
+                IsSelectable = false,
+                LocalCount = 0,
+                CloudCount = 0,
+                Status = SyncNodeStatus.Both,
+            });
+        }
+
+        children.Add(Category(
+            "foryou:activities",
+            "Learning log",
+            SyncDataCategory.ForYou,
+            actChildren,
+            allActLeafIds));
 
         var localEnabled = local.ForYouEnabled;
         var cloudEnabled = cloudProfile?.Enabled ?? false;
@@ -335,6 +370,25 @@ public static class CloudSyncTreeBuilder
 
     private static string ActivityKey(ForYouCloudActivity activity) =>
         $"{activity.TimestampUtc}:{activity.Kind}:{activity.Topic}:{activity.PostId}";
+
+    private static string FormatActivityLabel(ForYouCloudActivity activity)
+    {
+        var when = activity.TimestampUtc > 0
+            ? DateTimeOffset.FromUnixTimeMilliseconds(activity.TimestampUtc).ToLocalTime().ToString("MMM d, HH:mm")
+            : string.Empty;
+
+        var signalLabel = Enum.TryParse<ForYouSignalType>(activity.Kind, ignoreCase: true, out var type)
+            ? new ForYouActivityEntry
+            {
+                SignalType = type,
+                Topic = activity.Topic,
+            }.DisplayLabel
+            : string.IsNullOrWhiteSpace(activity.Topic)
+                ? activity.Kind
+                : $"{activity.Kind}: {activity.Topic}";
+
+        return string.IsNullOrWhiteSpace(when) ? signalLabel : $"{when} — {signalLabel}";
+    }
 
     private static SyncDataNode PostLeaf(
         string prefix,

@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Wpf.Ui.Controls;
@@ -100,10 +101,30 @@ internal static class PageScrollHelper
                 return scrollViewer;
             }
 
-            node = VisualTreeHelper.GetParent(node);
+            node = GetParentObject(node);
         }
 
         return null;
+    }
+
+    private static DependencyObject? GetParentObject(DependencyObject node)
+    {
+        if (node is Visual)
+        {
+            return VisualTreeHelper.GetParent(node);
+        }
+
+        if (node is FrameworkContentElement contentElement)
+        {
+            return contentElement.Parent;
+        }
+
+        if (node is Inline inline)
+        {
+            return inline.Parent;
+        }
+
+        return LogicalTreeHelper.GetParent(node);
     }
 
     private static T? FindDescendant<T>(DependencyObject? root)

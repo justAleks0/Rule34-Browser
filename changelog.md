@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## 2.0.82 - 2026-07-02
+
+- **Cloud sync tree (PC):** Expanding **Learning log** (For You activity history) no longer crashes when scrolling — mouse wheel over count labels hit inline `Run` text and broke `PageScrollHelper`.
+- **Cloud sync tree (PC):** Activity rows show human-readable labels (e.g. `Jul 2, 02:47 — Reopened: ahe_gao`) instead of raw `timestamp:Kind:tag` keys; capped at 100 visible events with overflow row.
+
 ## 2.0.81 - 2026-07-02
 
 - **Startup crash fix (PC):** Update banner used missing WPF theme resources (`AccentButton`, card brushes), which crashed the app on launch before the main window appeared.

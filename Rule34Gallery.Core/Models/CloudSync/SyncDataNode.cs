@@ -25,6 +25,8 @@ public sealed class SyncDataNode : INotifyPropertyChanged
 
     public string Detail { get; set; } = string.Empty;
 
+    public string CountsSummary => $"local {LocalCount} · cloud {CloudCount}";
+
     public bool IsSelected
     {
         get => _isSelected;

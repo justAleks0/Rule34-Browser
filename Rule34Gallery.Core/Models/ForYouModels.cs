@@ -114,6 +114,8 @@ public sealed class ForYouActivityEntry
         ForYouSignalType.SavedTag => $"Saved tag: {Topic}",
         ForYouSignalType.PostOpened => $"Opened: {Topic}",
         ForYouSignalType.PostReopened => $"Reopened: {Topic}",
+        ForYouSignalType.PostCompleted => $"Finished viewing: {Topic}",
+        ForYouSignalType.RepeatedTagView => $"Repeat view: {Topic}",
         ForYouSignalType.Favorite => $"Favorite: {Topic}",
         ForYouSignalType.WatchLater => "Watch later",
         ForYouSignalType.Download => "Download",

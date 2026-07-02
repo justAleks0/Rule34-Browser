@@ -156,12 +156,8 @@
                                         <TextBlock Margin="8,0,0,0"
                                                    FontSize="11"
                                                    Foreground="{StaticResource SubtleBrush}"
-                                                   VerticalAlignment="Center">
-                                            <Run Text="local "/>
-                                            <Run Text="{Binding LocalCount, Mode=OneWay}"/>
-                                            <Run Text=" · cloud "/>
-                                            <Run Text="{Binding CloudCount, Mode=OneWay}"/>
-                                        </TextBlock>
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding CountsSummary}"/>
                                         <TextBlock Margin="8,0,0,0"
                                                    FontSize="10"
                                                    Foreground="{StaticResource MutedBrush}"
