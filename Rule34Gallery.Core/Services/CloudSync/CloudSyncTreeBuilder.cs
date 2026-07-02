@@ -1,4 +1,5 @@
 using Rule34Gallery.Core.Firebase;
+using Rule34Gallery.Core.Services;
 
 namespace Rule34Gallery.Core.CloudSync;
 
@@ -293,7 +294,7 @@ public static class CloudSyncTreeBuilder
             actChildren.Add(new SyncDataNode
             {
                 Id = "foryou:activities:overflow",
-                Label = $"… and {overflow:N0} more learning events (use parent checkbox to select all)",
+                Label = $"… and {overflow:N0} more learning data rows (use parent checkbox to select all)",
                 Kind = SyncNodeKind.Leaf,
                 Category = SyncDataCategory.ForYou,
                 IsSelectable = false,
@@ -305,7 +306,7 @@ public static class CloudSyncTreeBuilder
 
         children.Add(Category(
             "foryou:activities",
-            "Learning log",
+            "Learning data",
             SyncDataCategory.ForYou,
             actChildren,
             allActLeafIds));
@@ -371,24 +372,8 @@ public static class CloudSyncTreeBuilder
     private static string ActivityKey(ForYouCloudActivity activity) =>
         $"{activity.TimestampUtc}:{activity.Kind}:{activity.Topic}:{activity.PostId}";
 
-    private static string FormatActivityLabel(ForYouCloudActivity activity)
-    {
-        var when = activity.TimestampUtc > 0
-            ? DateTimeOffset.FromUnixTimeMilliseconds(activity.TimestampUtc).ToLocalTime().ToString("MMM d, HH:mm")
-            : string.Empty;
-
-        var signalLabel = Enum.TryParse<ForYouSignalType>(activity.Kind, ignoreCase: true, out var type)
-            ? new ForYouActivityEntry
-            {
-                SignalType = type,
-                Topic = activity.Topic,
-            }.DisplayLabel
-            : string.IsNullOrWhiteSpace(activity.Topic)
-                ? activity.Kind
-                : $"{activity.Kind}: {activity.Topic}";
-
-        return string.IsNullOrWhiteSpace(when) ? signalLabel : $"{when} — {signalLabel}";
-    }
+    private static string FormatActivityLabel(ForYouCloudActivity activity) =>
+        ForYouActivityLabels.FormatSyncTreeLabel(activity);
 
     private static SyncDataNode PostLeaf(
         string prefix,

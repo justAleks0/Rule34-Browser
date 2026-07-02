@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 2.0.83 - 2026-07-02
+
+- **Cloud sync tree (PC):** For You learning rows now read `Learning data: Reopened post — ahe_gao` instead of raw timestamp/kind keys; section renamed **Learning data**.
+
 ## 2.0.82 - 2026-07-02
 
 - **Cloud sync tree (PC):** Expanding **Learning log** (For You activity history) no longer crashes when scrolling — mouse wheel over count labels hit inline `Run` text and broke `PageScrollHelper`.

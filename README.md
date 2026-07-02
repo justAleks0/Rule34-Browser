@@ -1,6 +1,6 @@
 # Rule34 Gallery
 
-**Current version:** 2.0.82 · [Releases](https://github.com/justAleks0/Rule34-Browser/releases)
+**Current version:** 2.0.83 · [Releases](https://github.com/justAleks0/Rule34-Browser/releases)
 
 A personal gallery browser for [rule34.xxx](https://rule34.xxx) (plus Danbooru and e621 sources), with a full **Windows** desktop app and a lighter **Android** companion. Sign in with Google to sync favorites, tag sets, credentials, and a trained **For You** feed across devices.
 
