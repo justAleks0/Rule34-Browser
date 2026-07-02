@@ -63,7 +63,27 @@ Update when features, platforms, or major behavior change. README describes **wh
 
 When shipping something new, add or extend a bullet under the right **Features** subsection and bump **Current version** at the top.
 
-### 5. Final message checklist
+### 5. GitHub Releases (`scripts/publish-github-release.ps1`)
+
+When publishing a build to GitHub, release notes **must** come from the matching `changelog.md` section for that version.
+
+**Do:**
+- Ensure `## x.y.z - YYYY-MM-DD` exists at the top of `changelog.md` with bullet points **before** running the publish script
+- Run `scripts/publish-github-release.ps1` (or `-SkipBuild` after `post-change-all.ps1`)
+- Verify on GitHub that the release body shows those bullets, not placeholder text
+
+**Do not:**
+- Publish with body text like `Release v2.0.83` or `Maintenance release`
+- Rely on the script’s old generic fallback — it now **refuses** to publish without real changelog bullets
+
+**Fix notes on an existing release** (no new assets):
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/publish-github-release.ps1 -EditOnly -Tag v2.0.83
+```
+
+Changelog headers use a date suffix (`## 2.0.83 - 2026-07-02`); the publish script must match that format.
+
+### 6. Final message checklist
 
 If app code changed, include the post-change block from `publish-and-install-after-edits.mdc`.
 

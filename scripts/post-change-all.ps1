@@ -78,3 +78,6 @@ if (-not $SkipAndroid) {
 
 Write-Host ""
 Write-Host "=== Post-change pipeline complete ===" -ForegroundColor Green
+Write-Host ""
+Write-Host "GitHub release (when shipping): scripts/publish-github-release.ps1 -SkipBuild" -ForegroundColor DarkGray
+Write-Host "  Release notes must come from changelog.md — generic 'Release vX' is blocked." -ForegroundColor DarkGray

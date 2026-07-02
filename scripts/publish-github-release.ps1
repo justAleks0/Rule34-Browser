@@ -4,12 +4,47 @@ param(
     [string]$Title,
     [string]$Notes,
     [switch]$SkipBuild,
-    [switch]$Draft
+    [switch]$Draft,
+    [switch]$EditOnly
 )
 
 $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $distRoot = Join-Path $repoRoot "dist"
+
+function Get-ReleaseNotesFromChangelog {
+    param(
+        [string]$ChangelogPath,
+        [string]$Version
+    )
+
+    if (-not (Test-Path $ChangelogPath)) {
+        return $null
+    }
+
+    $text = Get-Content $ChangelogPath -Raw
+    $escaped = [regex]::Escape($Version)
+    $pattern = "(?ms)^##\s+$escaped(?:\s+-\s+[^\r\n]+)?\s*\r?\n(.*?)(?=^##\s|\z)"
+    if ($text -match $pattern) {
+        return $Matches[1].Trim()
+    }
+
+    return $null
+}
+
+function Test-ValidReleaseNotes {
+    param([string]$Notes)
+
+    if ([string]::IsNullOrWhiteSpace($Notes)) {
+        return $false
+    }
+
+    if ($Notes -match '(?m)^\s*-\s+\S') {
+        return $true
+    }
+
+    return $false
+}
 
 if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
     throw "GitHub CLI (gh) is required. Install from https://cli.github.com/"
@@ -26,22 +61,37 @@ if ([string]::IsNullOrWhiteSpace($Tag)) {
     $Tag = "v$version"
 }
 
+$notesVersion = if ($Tag -match '^v(.+)$') { $Matches[1] } else { $version }
+
 if ([string]::IsNullOrWhiteSpace($Title)) {
     $Title = "Rule34 Gallery $Tag"
 }
 
 if ([string]::IsNullOrWhiteSpace($Notes)) {
     $changelog = Join-Path $repoRoot "changelog.md"
-    if (Test-Path $changelog) {
-        $text = Get-Content $changelog -Raw
-        if ($text -match "(?ms)^##\s+$([regex]::Escape($version))\s*\r?\n(.*?)(?=^##\s|\z)") {
-            $Notes = $Matches[1].Trim()
-        }
-    }
+    $Notes = Get-ReleaseNotesFromChangelog -ChangelogPath $changelog -Version $notesVersion
 }
 
-if ([string]::IsNullOrWhiteSpace($Notes)) {
-    $Notes = "Release $Tag"
+if (-not (Test-ValidReleaseNotes -Notes $Notes)) {
+    throw @"
+GitHub release notes for $notesVersion are missing or have no bullet points.
+
+Add a real ## $notesVersion section at the top of changelog.md (see public-repo-hygiene.mdc), then re-run:
+  scripts/publish-github-release.ps1
+
+Refusing to publish generic text like 'Release $Tag'.
+"@
+}
+
+$notesFile = Join-Path $env:TEMP "Rule34Gallery-release-notes-$Tag.md"
+Set-Content -Path $notesFile -Value $Notes -Encoding UTF8
+
+if ($EditOnly) {
+    Write-Host "Updating GitHub release notes for $Tag ..." -ForegroundColor Cyan
+    & gh release edit $Tag --notes-file $notesFile
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    Write-Host "Updated release notes for $Tag" -ForegroundColor Green
+    exit 0
 }
 
 if (-not $SkipBuild) {
@@ -78,7 +128,7 @@ Write-Host "Creating GitHub release $Tag ..." -ForegroundColor Cyan
 $releaseArgs = @(
     "release", "create", $Tag,
     "--title", $Title,
-    "--notes", $Notes,
+    "--notes-file", $notesFile,
     (Join-Path $stageDir "Rule34Gallery-win-x64.zip"),
     (Join-Path $stageDir "R34Browser.apk")
 )
@@ -94,3 +144,4 @@ Write-Host ""
 Write-Host "Published $Tag" -ForegroundColor Green
 Write-Host "  Rule34Gallery-win-x64.zip"
 Write-Host "  R34Browser.apk"
+Write-Host "  Release notes from changelog.md ($version)"
