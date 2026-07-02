@@ -11,40 +11,7 @@ param(
 $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $distRoot = Join-Path $repoRoot "dist"
-
-function Get-ReleaseNotesFromChangelog {
-    param(
-        [string]$ChangelogPath,
-        [string]$Version
-    )
-
-    if (-not (Test-Path $ChangelogPath)) {
-        return $null
-    }
-
-    $text = Get-Content $ChangelogPath -Raw
-    $escaped = [regex]::Escape($Version)
-    $pattern = "(?ms)^##\s+$escaped(?:\s+-\s+[^\r\n]+)?\s*\r?\n(.*?)(?=^##\s|\z)"
-    if ($text -match $pattern) {
-        return $Matches[1].Trim()
-    }
-
-    return $null
-}
-
-function Test-ValidReleaseNotes {
-    param([string]$Notes)
-
-    if ([string]::IsNullOrWhiteSpace($Notes)) {
-        return $false
-    }
-
-    if ($Notes -match '(?m)^\s*-\s+\S') {
-        return $true
-    }
-
-    return $false
-}
+. (Join-Path $PSScriptRoot "changelog-format.ps1")
 
 if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
     throw "GitHub CLI (gh) is required. Install from https://cli.github.com/"
@@ -76,7 +43,7 @@ if (-not (Test-ValidReleaseNotes -Notes $Notes)) {
     throw @"
 GitHub release notes for $notesVersion are missing or have no bullet points.
 
-Add a real ## $notesVersion section at the top of changelog.md (see public-repo-hygiene.mdc), then re-run:
+Add a real ## $notesVersion - HH-mm MM-DD-YYYY section at the top of changelog.md (see changelog-template.md), then re-run:
   scripts/publish-github-release.ps1
 
 Refusing to publish generic text like 'Release $Tag'.

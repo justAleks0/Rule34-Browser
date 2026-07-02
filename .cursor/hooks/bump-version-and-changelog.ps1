@@ -12,6 +12,10 @@ if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
 $desktopCsproj = Join-Path $RepoRoot "Rule34GalleryApp\Rule34GalleryApp.csproj"
 $androidGradle = "C:\Users\aleks\AndroidStudioProjects\R34Browser\app\build.gradle.kts"
 $changelogPath = Join-Path $RepoRoot "changelog.md"
+$changelogFormat = Join-Path $RepoRoot "scripts\changelog-format.ps1"
+if (Test-Path $changelogFormat) {
+    . $changelogFormat
+}
 
 if (-not (Test-Path $desktopCsproj)) { exit 0 }
 if (-not (Test-Path $androidGradle)) { exit 0 }
@@ -103,7 +107,7 @@ if ($codeMatch.Success) {
 Set-Content -Path $androidGradle -Value $androidRaw -Encoding UTF8
 
 if (-not (Test-Path $changelogPath)) {
-    Set-Content -Path $changelogPath -Encoding UTF8 -Value "# Changelog`r`n`r`n"
+    Insert-ChangelogEntry -ChangelogPath $changelogPath -Entry ""
 }
 
 $changelogNotes = @()
@@ -118,27 +122,20 @@ if (-not [string]::IsNullOrWhiteSpace($PayloadJson)) {
     }
 }
 
-$existing = Get-Content -Raw -Path $changelogPath
-$date = (Get-Date).ToString("yyyy-MM-dd")
-$bulletLines = if ($changelogNotes.Count -gt 0) {
-    ($changelogNotes | ForEach-Object { "- $_" }) -join "`r`n"
-} else {
-    "- Maintenance release ($tier change: $($profile.reason))."
+$date = Get-Date
+
+if ($changelogNotes.Count -gt 0) {
+    $entry = New-ChangelogEntry -Version $newVersion -At $date -Sections @{
+        Changed = $changelogNotes
+    }
 }
-$entry = @"
-## $newVersion - $date
-
-$bulletLines
-
-"@
-
-if ($existing -match '^\s*#\s*Changelog\s*') {
-    $rest = $existing -replace '^\s*#\s*Changelog\s*\r?\n+', ''
-    $newChangelog = "# Changelog`r`n`r`n$entry$rest"
-} else {
-    $newChangelog = "# Changelog`r`n`r`n$entry$existing"
+else {
+    $entry = New-ChangelogEntry -Version $newVersion -At $date -Sections @{
+        Changed = @("Maintenance release ($tier change: $($profile.reason)). Replace with real ### Added/Changed/Fixed/Removed/Notes bullets.")
+    }
 }
-Set-Content -Path $changelogPath -Value $newChangelog -Encoding UTF8
+
+Insert-ChangelogEntry -ChangelogPath $changelogPath -Entry $entry
 
 $syncScript = Join-Path $RepoRoot "scripts\sync-changelog-android.ps1"
 if (Test-Path $syncScript) {

@@ -1,22 +1,44 @@
 ﻿# Changelog
 
-## 2.0.83 - 2026-07-02
+All notable changes to this project will be documented here.
 
+---
+
+## 2.0.83 - 12-00 07-02-2026
+
+### Changed
 - **Cloud sync tree (PC):** For You learning rows now read `Learning data: Reopened post — ahe_gao` instead of raw timestamp/kind keys; section renamed **Learning data**.
 
-## 2.0.82 - 2026-07-02
+---
 
+## 2.0.82 - 12-00 07-02-2026
+
+### Fixed
 - **Cloud sync tree (PC):** Expanding **Learning log** (For You activity history) no longer crashes when scrolling — mouse wheel over count labels hit inline `Run` text and broke `PageScrollHelper`.
-- **Cloud sync tree (PC):** Activity rows show human-readable labels (e.g. `Jul 2, 02:47 — Reopened: ahe_gao`) instead of raw `timestamp:Kind:tag` keys; capped at 100 visible events with overflow row.
 
-## 2.0.81 - 2026-07-02
+### Changed
+- **Cloud sync tree (PC):** Activity rows show human-readable labels instead of raw `timestamp:Kind:tag` keys; capped at 100 visible events with overflow row.
 
-- **Startup crash fix (PC):** Update banner used missing WPF theme resources (`AccentButton`, card brushes), which crashed the app on launch before the main window appeared.
+---
 
-## 2.0.80 - 2026-07-01
+## 2.0.81 - 12-00 07-02-2026
 
-- **Auto-update (PC + Android):** Update checker now targets the live repo [justAleks0/Rule34-Browser](https://github.com/justAleks0/Rule34-Browser) on GitHub Releases (was a placeholder repo name).
+### Fixed
+- **Startup crash (PC):** Update banner used missing WPF theme resources (`AccentButton`, card brushes), which crashed the app on launch before the main window appeared.
+
+---
+
+## 2.0.80 - 12-00 07-01-2026
+
+### Added
+- **Auto-update (PC + Android):** Update checker targets the live repo [justAleks0/Rule34-Browser](https://github.com/justAleks0/Rule34-Browser) on GitHub Releases.
+
+### Notes
 - **GitHub publish:** First public release ships `Rule34Gallery-win-x64.zip` and `R34Browser.apk` for in-app download/install.
+
+---
+
+<!-- Legacy format below: older entries use a single bullet list per version. -->
 
 ## 2.0.79 - 2026-07-01
 

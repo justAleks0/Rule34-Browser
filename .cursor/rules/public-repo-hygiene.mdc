@@ -30,28 +30,52 @@ When behavior or user-visible UI changes (see `version-bump-always.mdc`):
 
 Same semver on both platforms. Docs-only / `.cursor/` rules-only → skip bump unless user asks.
 
-### 3. Changelog (`changelog.md`)
+### 3. Changelog (one format everywhere)
 
-Every version bump needs a new `## x.y.z - YYYY-MM-DD` section at the **top** with **real bullets**:
+Use the **same structure** in:
 
-**Do:**
-- Name the surface: `(PC)`, `(Android)`, or `(PC + Android)`
-- Describe what the user sees or what was fixed
-- One bullet per distinct change; bold the feature/area label
+- `changelog.md` (repo root — bundled in desktop + Android via version badge)
+- GitHub Releases (extracted from `changelog.md` by `scripts/publish-github-release.ps1`)
+- Any new version entry from the bump hook (`scripts/changelog-format.ps1`)
 
-**Do not:**
-- `Auto version bump`, `Maintenance release`, `quality changes`, `fallback`, `Publish/install refresh`
-- Empty sections or bullets that only say the version was updated
+Canonical copy: **`changelog-template.md`**
 
-After editing changelog, run `scripts/sync-changelog-android.ps1`.
-
-**Example (good):**
 ```markdown
-## 2.0.80 - 2026-07-02
+# Changelog
 
-- **Auto-update (PC):** Banner no longer shows when the GitHub release API returns 404.
-- **Settings (Android):** Added manual “Check for updates now” on the sync screen.
+All notable changes to this project will be documented here.
+
+---
+
+## [Version Number] - HH-mm MM-DD-YYYY
+
+### Added
+- New features, new files, new systems, new options.
+
+### Changed
+- Things that already existed but were adjusted, improved, renamed, reworked, or redesigned.
+
+### Fixed
+- Bugs, broken behavior, crashes, wrong text, missing files, weird issues.
+
+### Removed
+- Deleted features, removed files, removed old systems, abandoned options.
+
+### Notes
+- Extra context, warnings, known issues, setup info, or things users should know.
+
+---
 ```
+
+**Rules:**
+- Version line uses **24-hour** `HH-mm MM-DD-YYYY` (example: `## 2.0.84 - 14-30 07-02-2026`)
+- Put each bullet under the right `###` heading; **omit** empty sections (no "None" placeholders)
+- Name the surface in bullets when helpful: `(PC)`, `(Android)`, `(PC + Android)`
+- End each version block with `---` before the next version
+
+**Do not:** `Auto version bump`, `Maintenance release`, `Release vX`, or bullets that only say the version changed.
+
+After editing `changelog.md`, run `scripts/sync-changelog-android.ps1`.
 
 ### 4. README (`README.md`)
 
@@ -65,23 +89,19 @@ When shipping something new, add or extend a bullet under the right **Features**
 
 ### 5. GitHub Releases (`scripts/publish-github-release.ps1`)
 
-When publishing a build to GitHub, release notes **must** come from the matching `changelog.md` section for that version.
+Release notes **must** be copied from the matching `changelog.md` version block (including `### Added` / `### Changed` / etc.).
 
 **Do:**
-- Ensure `## x.y.z - YYYY-MM-DD` exists at the top of `changelog.md` with bullet points **before** running the publish script
+- Write the version block in `changelog.md` first (template in `changelog-template.md`)
 - Run `scripts/publish-github-release.ps1` (or `-SkipBuild` after `post-change-all.ps1`)
-- Verify on GitHub that the release body shows those bullets, not placeholder text
+- Confirm on GitHub that the release body shows the `###` sections, not `Release vX`
 
-**Do not:**
-- Publish with body text like `Release v2.0.83` or `Maintenance release`
-- Rely on the script’s old generic fallback — it now **refuses** to publish without real changelog bullets
+**Do not:** Publish generic one-line release text.
 
-**Fix notes on an existing release** (no new assets):
+**Fix notes on an existing release:**
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/publish-github-release.ps1 -EditOnly -Tag v2.0.83
 ```
-
-Changelog headers use a date suffix (`## 2.0.83 - 2026-07-02`); the publish script must match that format.
 
 ### 6. Final message checklist
 

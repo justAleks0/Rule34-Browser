@@ -19,10 +19,10 @@ Skip any step only when the user explicitly says so (e.g. "don't bump", "skip in
 |----------|------|--------|
 | Desktop (WPF) | `Rule34GalleryApp/Rule34GalleryApp.csproj` | `<Version>x.y.z</Version>` |
 | Android | `C:\Users\aleks\AndroidStudioProjects\R34Browser\app\build.gradle.kts` | `versionName = "x.y.z"` + increment `versionCode` |
-| Changelog | `changelog.md` | New `## x.y.z` section with real bullets (not placeholder text) |
+| Changelog | `changelog.md` | New version block per `changelog-template.md` |
 | README | `README.md` | **Current version** line + feature bullets when user-visible behavior changes |
 
-See also `public-repo-hygiene.mdc` for changelog/README rules and secret gitignore requirements.
+See `changelog-template.md` and `public-repo-hygiene.mdc` for the required `### Added/Changed/Fixed/Removed/Notes` format.
 
 After editing `changelog.md`, run `scripts/sync-changelog-android.ps1`.
 

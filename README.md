@@ -48,4 +48,4 @@ Firebase and API keys are **local only**. Copy `Rule34GalleryApp/firebase-config
 
 ## Changelog
 
-User-facing changes are recorded in [changelog.md](changelog.md) (also bundled in both apps via the version badge).
+User-facing changes are recorded in [changelog.md](changelog.md) using the format in [changelog-template.md](changelog-template.md) (also bundled in both apps via the version badge).
